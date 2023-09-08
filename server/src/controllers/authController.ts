@@ -2,28 +2,20 @@ import { Request, Response } from "express";
 import connectdb from "../utils/connectiondb";
 import bcrypt from "bcryptjs"
 import { createAccessToken } from "../lib/jwt";
-import { User } from "../utils/Interfaces";
+import { CustomRequest, User } from "../utils/Interfaces";
 
 export const getUsersRequest = async (req: Request, res: Response):Promise< Response| void> => {
     try {
-        const response = await connectdb.query("SELECT * FROM users WHERE id = ?", [req.params.id])
+        const response = await connectdb.query("SELECT * FROM users",)
 
         if(!response[0]) return res.status(404).json({mesaje: "user not found"})
 
-        if(Array.isArray(response[0])){
-            const user: User | any = response[0][0]
-            res.json({
-                id: user.id,
-                name: user.name,
-                email: user.email,
-            })
-        }
+        res.json(response[0])
        
     } catch (error) {
         console.log(error)
     }
 }
-
 
 export const registerRequest = async (req: Request, res: Response) => {
     const {name, email, password} = req.body
@@ -76,3 +68,22 @@ export const loginRrquest = async (req: Request, res: Response) => {
         console.log(error)
     }
 }
+
+export const logoutRequest = async (req: Request, res: Response) => {
+    res.cookie("token", "", {
+        expires: new Date(0)
+    })
+    res.sendStatus(200)
+}
+
+export const profileRequest = async (req: CustomRequest, res: Response) => {
+    try {
+        const response = await connectdb.query(`SELECT * FROM users WHERE id = ?`, [req.user.id])
+        if(!response[0]){
+            return res.status(404).json({message: "User not Found"})
+        }
+        res.json(response[0]) 
+    } catch (error) {
+        console.log(error)
+    }
+} 

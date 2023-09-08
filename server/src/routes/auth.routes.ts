@@ -1,12 +1,15 @@
 import { Request, Response, Router } from "express";
-import { getUsersRequest, loginRrquest, registerRequest } from "../controllers/authController";
+import { getUsersRequest, loginRrquest, logoutRequest, profileRequest, registerRequest } from "../controllers/authController";
+import { authRequired } from "../middleware/validatorToken";
+import { requireInput, validateSchema } from "../middleware/validatorMiddleware";
+import { loginSchema, registerSchema } from "../schemas/authSchema";
 
 const autRoute = Router()
 
-autRoute.get("/user/:id", getUsersRequest)
-autRoute.post("/register", registerRequest)
-autRoute.post("/login/", loginRrquest)
-autRoute.post("/logout")
-autRoute.get("/profile")
+autRoute.get("/users",  getUsersRequest)
+autRoute.post("/register",requireInput , validateSchema(registerSchema), registerRequest)
+autRoute.post("/login/", validateSchema(loginSchema), loginRrquest)
+autRoute.post("/logout", logoutRequest)
+autRoute.get("/profile", authRequired, profileRequest)
 
 export default autRoute
