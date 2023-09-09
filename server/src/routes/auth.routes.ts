@@ -9,7 +9,7 @@ const autRoute = Router()
 autRoute.get("/users",  getUsersRequest)
 autRoute.post("/register",requireInput , validateSchema(registerSchema), registerRequest)
 autRoute.post("/login/", validateSchema(loginSchema), loginRrquest)
-autRoute.post("/logout", logoutRequest)
+autRoute.post("/logout", logoutRequest) 
 autRoute.get("/profile", authRequired, profileRequest)
 
 export default autRoute
