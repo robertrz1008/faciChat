@@ -52,15 +52,15 @@ export const loginRrquest = async (req: Request, res: Response) => {
     try {
         const response = await connectdb.query("SELECT * FROM users WHERE email = ?", [email])
 
-        if(!response) return res.status(404).json(["no se reconoce el email"])
+        if(Array.isArray(response[0]) && response[0].length == 0) return res.status(404).json(["no se reconoce el email"])
        
         if(Array.isArray(response[0])){
             const userFound: User | any = response[0][0]
-            const isMatch = await bcrypt.compare(password, userFound.password)
+            const isMatch = await bcrypt.compare(password, userFound.password) 
 
             if(!isMatch) return res.json(["password incorrect"])
 
-            const token = await createAccessToken({id: userFound.id})
+            const token = await createAccessToken({id: userFound.id}) 
             res.cookie("token", token)
             res.send(`Bienvenido ${userFound.name}`)
         }
