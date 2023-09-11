@@ -31,3 +31,5 @@ ON m.user_id = u.id
 DESCRIBE  users;
 
 INSERT INTO messages(containe, user_id) VALUES("Este es el primer mensage", 1);
+
+DELETE FROM messages WHERE id = 1

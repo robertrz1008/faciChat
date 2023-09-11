@@ -1,9 +1,9 @@
 import express from "express"
-import { Request, Response } from "express-serve-static-core"
 import { PORT } from "./utils/config"
 import morgan from "morgan"
 import cookieParser from "cookie-parser"
 import autRoute from "./routes/auth.routes"
+import '@fontsource/roboto/400.css';
 import msgRoute from "./routes/message.routes"
 
 const app = express()
