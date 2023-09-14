@@ -1,16 +1,18 @@
-import { useAuth } from "../context/AppContext.tsx" 
+import { useAuth } from "../../context/AppContext.tsx" 
 import "../css/RegisterPage.css"
-import {useForm, SubmitErrorHandler, SubmitHandler} from "react-hook-form"
-import { FormValues, appContextIn } from "../interfaces/contextInterfaces"
+import {useForm, SubmitHandler} from "react-hook-form"
+import { FormValues, appContextIn } from "../../interfaces/contextInterfaces.ts"
+import { Link } from "react-router-dom"
 
-function RegisterPage() {
+function LoginPage() {
 
     const {register, handleSubmit, formState:{errors}} = useForm<FormValues>()
-    const {singUp, users} = useAuth() as appContextIn
+    const {singIn, errors: loginErrors} = useAuth() as appContextIn
 
     const submit: SubmitHandler<FormValues> = async (data) => {
-        singUp(data)
+        singIn(data)
     }
+
 
   return (
     <div className='authPage'>
@@ -19,20 +21,9 @@ function RegisterPage() {
             className="auth-con"
         >
 
-            <h1 >Registrarse</h1>
+            <h1 >Inicia Secion</h1>
 
             <div className="auth-body">
-                <input 
-                    className="auth-input" 
-                    type="text" 
-                    {...register("name", {required: true})}
-                    placeholder='Nombre de usuario'
-                />
-                {
-                    errors.name && (
-                        <p >El nombre de usuario es requerido</p>
-                    )
-                }
                 <input 
                     className="auth-input" 
                     type="email" 
@@ -56,12 +47,22 @@ function RegisterPage() {
                     )
                 }
             </div>
-
-            <button className="auth-btn">Registrarse</button>
-
+            {
+                loginErrors? loginErrors.map((error, id) => (
+                    <div key={id} className="error-list">
+                        {error}
+                    </div>
+                )) : ""
+            }
+            <button className="auth-btn">Iniciar Secion</button>
         </form>
+
+        <p>
+            <Link to={"/register"} className="auth-link">¿Ya tienes una cuenta?</Link>
+        </p>
+
     </div>
   )
 }
 
-export default RegisterPage
+export default LoginPage

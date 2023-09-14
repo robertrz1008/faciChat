@@ -8,15 +8,17 @@ import msgRoute from "./routes/message.routes"
 
 const app = express()
 
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}))
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(cookieParser())
-app.use(cors({
-    
-}))
 
-app.use(autRoute)
-app.use(msgRoute)
+
+app.use("/api", autRoute)
+app.use("/api", msgRoute)
 
 
 app.listen(PORT, () =>{

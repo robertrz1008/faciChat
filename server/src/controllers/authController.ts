@@ -42,7 +42,7 @@ export const registerRequest = async (req: Request, res: Response) => {
         }
     } catch (error) {
         console.log(error)
-        res.status(400).json({message: "email in use"})
+        res.status(400).json([ "El coreo esta en uso"])
     }
 }
 
@@ -58,7 +58,7 @@ export const loginRrquest = async (req: Request, res: Response) => {
             const userFound: User | any = response[0][0]
             const isMatch = await bcrypt.compare(password, userFound.password) 
 
-            if(!isMatch) return res.json(["password incorrect"])
+            if(!isMatch) return res.status(404).json(["La contraseña es incorrecta"])
 
             const token = await createAccessToken({id: userFound.id}) 
             res.cookie("token", token)
