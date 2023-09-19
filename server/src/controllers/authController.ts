@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import connectdb from "../utils/connectiondb";
 import bcrypt from "bcryptjs"
+import jwt, { VerifyErrors } from "jsonwebtoken"
 import { createAccessToken } from "../lib/jwt";
 import { CustomRequest, User } from "../utils/Interfaces";
+import { TOKEN_SECREAT } from "../utils/config";
 
 export const getUsersRequest = async (req: Request, res: Response):Promise< Response| void> => {
     try {
@@ -87,3 +89,26 @@ export const profileRequest = async (req: CustomRequest, res: Response) => {
         console.log(error)
     }
 } 
+
+export const verifyToken = async (req: CustomRequest, res: Response) => {
+    const {token} = req.cookies
+
+    if(!token) return res.status(401).json({msg: "No autorizado"})
+
+    jwt.verify(token, TOKEN_SECREAT, async (error: jwt.VerifyErrors|null, user: any) => {
+        if(error) return res.status(400).json({message: "Token Fallido"})
+
+        const response = await connectdb.query(`SELECT * FROM users WHERE id = ? `, [user.id])
+        if(!response[0]) return res.status(404).json({message: "No hay Token"})
+        
+        if(Array.isArray(response[0])){
+            const userFound: User | any = response[0][0]
+            res.json({
+                id: userFound.id,
+                name: userFound.name,
+                email: userFound.email, 
+                password: userFound.password
+            })
+        }
+    })
+}

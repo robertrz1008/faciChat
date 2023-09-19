@@ -1,13 +1,19 @@
 import { useAuth } from "../../context/AppContext.tsx" 
 import "../css/RegisterPage.css"
 import {useForm, SubmitHandler} from "react-hook-form"
-import { FormValues, appContextIn } from "../../interfaces/contextInterfaces.ts"
-import { Link } from "react-router-dom"
+import { FormValues, AppContextIn } from "../../interfaces/contextInterfaces.ts"
+import {Link, useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 
 function LoginPage() {
 
     const {register, handleSubmit, formState:{errors}} = useForm<FormValues>()
-    const {singIn, errors: loginErrors} = useAuth() as appContextIn
+    const {singIn, isAutenticate, errors: loginErrors} = useAuth() as AppContextIn
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        if(isAutenticate) navigate("/home")
+      },[isAutenticate])
 
     const submit: SubmitHandler<FormValues> = async (data) => {
         singIn(data)

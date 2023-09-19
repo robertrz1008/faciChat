@@ -8,10 +8,12 @@ export interface User {
     email: string,
     password: string
 }
-export interface appContextIn{
+export interface AppContextIn{
     singUp: (user: User) => void,
     singIn: (user: User) => void,
     users: User,
+    loading: boolean,
+    isAutenticate: boolean,
     errors: String[]
 }
 
