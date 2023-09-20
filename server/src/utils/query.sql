@@ -34,10 +34,10 @@ CREATE TABLE chats(
 )
 
 CREATE TABLE users_chat(
-    id INT AUTO_INCREMENT
+    id INT AUTO_INCREMENT,
     id_user INT NOT NULL,
     id_chat INT NOT NULL,
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
     Foreign Key (id_user) REFERENCES users(id),
     Foreign Key (id_chat) REFERENCES chats(id)
 )
@@ -56,8 +56,25 @@ SELECT * FROM users;
 
 INSERT INTO chats(id_type) VALUES(1);
 
-SELECT * FROM users_chat
-
 SELECT c.id, t.name  FROM chats as c join chat_type as t on c.id_type = t.id;
 
-INSERT INTO users_chat(id_user, id_chat) VALUES(1, 1);
+INSERT INTO users_chat(id_user, id_chat) VALUES(2, 1);
+SELECT * FROM users_chat
+
+INSERT INTO messages(containe, id_user, id_chat) VALUES("como anda el proyecto con el equipo", 1, 1);
+INSERT INTO messages(containe, id_user, id_chat) VALUES("Pues mucho bugs  el login esta por concretarse", 2, 1);
+
+SELECT * FROM messages;
+
+SELECT u.name as "usuario", m.containe as "mensaje", m.creation as "hora y fecha de envio", t.name as "chat"
+from messages as m JOIN users as u
+on m.id_user = u.id 
+JOIN users_chat as uc 
+on u.id = uc.id_user
+join chats as c
+on uc.id_chat = c.id
+JOIN chat_type as t
+on c.id_type = t.id
+WHERE c.id = 1 ORDER BY m.creation ASC
+
+SELECT * FROM users_chat 

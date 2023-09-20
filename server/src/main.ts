@@ -5,6 +5,7 @@ import cors from "cors"
 import cookieParser from "cookie-parser"
 import autRoute from "./routes/auth.routes"
 import msgRoute from "./routes/message.routes"
+import chatRoute from "./routes/chat.routes"
 
 const app = express()
 
@@ -19,6 +20,7 @@ app.use(cookieParser())
 
 app.use("/api", autRoute)
 app.use("/api", msgRoute)
+app.use("/api", chatRoute)
 
 
 app.listen(PORT, () =>{
