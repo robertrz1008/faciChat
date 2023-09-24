@@ -77,4 +77,37 @@ JOIN chat_type as t
 on c.id_type = t.id
 WHERE c.id = 1 ORDER BY m.creation ASC
 
-SELECT * FROM users_chat 
+SELECT u.name, uc.id_chat FROM users as u JOIN users_chat as uc on u.id = uc.id_user 
+
+
+SELECT u.name, u.id, m.containe, m.creation, c.id_chat,
+FROM messages as m 
+JOIN users as u 
+
+
+ SELECT
+    u.name AS user_name,
+    c.id AS chat_id,
+    m.containe AS latest_message_content,
+    mt.latest_message AS latest_message_time
+FROM
+    users u
+JOIN
+    users_chat uc ON u.id = uc.id_user
+JOIN
+    chats c ON uc.id_chat = c.id
+JOIN (
+    SELECT
+        m.id_chat,
+        MAX(m.creation) AS latest_message
+    FROM
+        messages m
+    GROUP BY
+        m.id_chat
+) mt ON c.id = mt.id_chat
+JOIN
+    messages m ON mt.latest_message = m.creation AND mt.id_chat = m.id_chat
+WHERE
+    m.containe IS NOT NULL and uc.id_user <> 4;
+
+SELECT * FROM users_chat WHERE id_user <> 4;

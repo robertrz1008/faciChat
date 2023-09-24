@@ -1,6 +1,6 @@
 import { useState , createContext, useContext, useEffect } from "react"
 import { User, contexArg } from "../interfaces/contextInterfaces"
-import { loginRequest, registerRequest, vefifyTokenRequest } from "../api/authRequest"
+import { getProfileRequest, loginRequest, registerRequest, vefifyTokenRequest } from "../api/authRequest"
 import axios from "axios"
 import Cookies from "js-cookie"
 
@@ -15,7 +15,7 @@ export const useAuth = () => {
 }
 
 export function AppContextProvider({children}: contexArg) {
-    const [user, setUser] = useState()
+    const [user, setUser] = useState({})
     const [errors, setErrors] = useState()
     const [isAutenticate, setIstAutenticate] = useState(false)
     const [loading, setLoading] = useState(false)
@@ -38,7 +38,6 @@ export function AppContextProvider({children}: contexArg) {
         try {
             const res = await loginRequest(user)
             setIstAutenticate(true)
-            console.log(isAutenticate)
         } catch (error) {
             if(axios.isAxiosError(error)){
                 console.log(error)
@@ -71,6 +70,14 @@ export function AppContextProvider({children}: contexArg) {
             setLoading(false)
         }
     }
+    const getProfile = async () => {
+        try {
+            const res = await getProfileRequest()
+            setUser(res.data[0])
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     useEffect(() => {
         checkLogin()
@@ -86,6 +93,7 @@ export function AppContextProvider({children}: contexArg) {
         isAutenticate,
         loading,
         user,
+        getProfile,
         errors
     }}>
         {children}

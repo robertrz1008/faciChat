@@ -12,7 +12,7 @@ function RegisterPage() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(isAutenticate) navigate("/home")
+        if(isAutenticate) navigate("/chat")
       },[isAutenticate])
 
     const submit: SubmitHandler<FormValues> = async (data) => {
@@ -26,7 +26,7 @@ function RegisterPage() {
             className="auth-con"
         >
 
-            <h1 >Registrarse</h1>
+            <h1 >FaciChat</h1>
 
             <div className="auth-body">
                 <input 

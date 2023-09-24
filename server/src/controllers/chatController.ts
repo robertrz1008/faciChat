@@ -9,15 +9,44 @@ export const getChatsPrivateRequest = async (req: CustomRequest, res: Response) 
         id_user: Number,
         id_chat: Number
     }
-    function chatList(arr1: chatUser[], arr2: chatUser[] ) {
+    type chatUsers = {
+        user_name: String,
+        chat_id: Number,
+        latest_message_content: string,
+        latest_message_time: string
+    }
+    function chatList(arr1: chatUser[], arr2: chatUsers[] ) {
         const newX = arr1.reduce((cc, el) => cc.concat(el.id_chat), [] as Number[])
-        const mY = arr2.filter(data => newX.indexOf(data.id_chat) != -1)
+        const mY = arr2.filter(data => newX.indexOf(data.chat_id) != -1)
         return mY
     }
-
+    
     try {
         const mychat = await connectdb.query(`SELECT * FROM users_chat WHERE id_user = ?`, [req.user.id])
-        const userchat = await connectdb.query(`SELECT * FROM users_chat WHERE id_user <> ?`, [req.user.id])
+        const userchat = await connectdb.query(`SELECT
+        u.name AS user_name,c.id AS chat_id,
+        m.containe AS latest_message_content,
+        mt.latest_message AS latest_message_time
+    FROM
+        users u
+    JOIN
+        users_chat uc ON u.id = uc.id_user
+    JOIN
+        chats c ON uc.id_chat = c.id
+    JOIN (
+        SELECT
+            m.id_chat,
+            MAX(m.creation) AS latest_message
+        FROM
+            messages m
+        GROUP BY
+            m.id_chat
+    ) mt ON c.id = mt.id_chat
+    JOIN
+        messages m ON mt.latest_message = m.creation AND mt.id_chat = m.id_chat
+    WHERE
+        m.containe IS NOT NULL and uc.id_user <> ? ;
+    `, [req.user.id])
         if (Array.isArray(mychat[0]) && Array.isArray(userchat[0])) {
             const mc: chatUser[] | any = mychat[0]
             const uc: chatUser[] | any = userchat[0]

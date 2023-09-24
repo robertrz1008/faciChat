@@ -12,7 +12,7 @@ function LoginPage() {
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(isAutenticate) navigate("/home")
+        if(isAutenticate) navigate("/chat")
       },[isAutenticate])
 
     const submit: SubmitHandler<FormValues> = async (data) => {
@@ -27,7 +27,7 @@ function LoginPage() {
             className="auth-con"
         >
 
-            <h1 >Inicia Secion</h1>
+            <h1 >FaciChat</h1>
 
             <div className="auth-body">
                 <input 

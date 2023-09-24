@@ -1,0 +1,57 @@
+*{
+    margin: 0;
+  }
+  
+.app-body {
+    width: 100%;
+    height: 563px;
+    max-height: 563px;
+    display: grid;
+    grid-template-columns: 340px 1fr;
+}
+
+/* the panel chat */
+.chat-panel{
+    border: 1px solid rgb(192, 186, 186);
+    display: grid;
+    grid-template-rows: 15% 1fr;
+}
+.panel-profile{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+}
+.panel-profile div{
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+  
+}
+.chat-list{
+    overflow-y: scroll;
+}
+.chat-target{
+    font-family: sans-serif;
+    font-weight: lighter;
+    padding-left: 4%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+}
+.chat-target h3{
+    font-size: 15px;
+    text-decoration: none;
+    color: black;
+}
+.chat-target p{
+    font-size: 14px;
+}
+
+/* conversation */
+.chat-body{
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: 12% 1fr 10%;
+}
