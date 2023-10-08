@@ -4,10 +4,11 @@
   
 .app-body {
     width: 100%;
-    height: 563px;
+    height: 100vh;
     max-height: 563px;
     display: grid;
     grid-template-columns: 340px 1fr;
+    grid-template-rows: 100vh;
 }
 
 /* the panel chat */
@@ -23,15 +24,30 @@
     justify-content: center;
     font-family: sans-serif;
 }
+
 .panel-profile div{
     width: 90%;
     display: flex;
     justify-content: space-between;
-  
 }
+.panel-profile div h2{
+    cursor: pointer;
+    font-weight: lighter;
+    font-size: 1.7rem;
+}
+
 .chat-list{
     overflow-y: scroll;
 }
+
+.chat-list::-webkit-scrollbar{
+    width: 7px;
+}
+.chat-list::-webkit-scrollbar-thumb{
+    background-color: rgb(73, 72, 72);
+    border-radius: 5px;
+}
+
 .chat-target{
     font-family: sans-serif;
     font-weight: lighter;
@@ -39,13 +55,18 @@
     padding-top: 2%;
     padding-bottom: 2%;
 }
+.chat-target:hover{
+    background-color: #817f7f;
+}
 .chat-target h3{
     font-size: 15px;
     text-decoration: none;
+    font-size: 1rem;
     color: black;
 }
 .chat-target p{
     font-size: 14px;
+    color: rgb(53, 51, 51);
 }
 
 /* conversation */
@@ -55,3 +76,41 @@
     display: grid;
     grid-template-rows: 12% 1fr 10%;
 }
+
+.chat-header{
+    border-bottom: 1px solid rgb(155, 153, 153);
+    padding-left: 20px;
+    background-color: azure;
+    display: flex;
+    align-items: center;
+}
+.chat-header h2{
+    font-family: sans-serif;
+    font-weight: lighter;
+    font-size: 2rem;
+}
+
+.chat-form textarea{
+    width: 87%;
+    max-height: 90%;
+    outline: none;
+    color: rgb(43, 41, 41);
+    font-size: 1.1rem;
+}
+.chat-form{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+#form { 
+    background: rgba(0, 0, 0, 0.15); 
+    padding: 0.25rem; 
+    display: flex; 
+    height: 3rem; 
+    box-sizing: border-box; 
+    backdrop-filter: blur(10px); 
+}
+      #input { border: none; padding: 0 1rem; flex-grow: 1; border-radius: 2rem; margin: 0.25rem; }
+      #input:focus { outline: none; }
+      #form > button { background: #333; border: none; padding: 0 1rem; margin: 0.25rem; border-radius: 3px; outline: none; color: #fff; }

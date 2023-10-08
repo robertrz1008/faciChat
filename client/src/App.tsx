@@ -18,7 +18,7 @@ function App() {
 
               <Route element={<ProtectedRoute/>}>
                   <Route path={"/chat/*"} element={<AppPage />}>
-                      <Route path={'conversation/:id'} element={<ChatPage/>}/>
+                      <Route path={'conversation/:id/:name'} element={<ChatPage/>}/>
                   </Route>
               </Route>
               

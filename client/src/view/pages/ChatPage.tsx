@@ -3,15 +3,21 @@ import Header from "../components/conversation/Header"
 import MessageList from "../components/conversation/MessageList"
 import Form from "../components/conversation/Form"
 
-function ChatPage() {
+function ChatPage(): JSX.Element {
 
-  const {id} = useParams()
+  const {id, name} = useParams()
 
-  return (
+  return ( 
     <div className="chat-body">
-      <Header/>
-      <MessageList/>
-      <Form/>
+      <Header
+          name={name}
+      />
+      <MessageList 
+            id={id}
+      /> 
+      <Form
+          id={id}
+      />
     </div>
   )
 }

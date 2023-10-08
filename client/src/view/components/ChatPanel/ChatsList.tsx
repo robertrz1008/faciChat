@@ -8,8 +8,11 @@ function ChatsList() {
   const {chats, getChats} = useChat() as ChatContextIn
 
   useEffect(() => {
-    getChats()
+    if(chats.length == 0){
+      getChats()
+    }
   }, [])
+
 
   if(!chats || chats.length == 0){
 
@@ -20,7 +23,7 @@ function ChatsList() {
         <div className='chat-list'>
           {
             chats.map((chat) => (
-              <Link to={`conversation/${chat.chat_id}`} key={chat.chat_id}>
+              <Link to={`conversation/${chat.chat_id}/${chat.user_name}`} key={chat.chat_id}>
                   <div className='chat-target'>
                       <h3>{chat.user_name}</h3>
                       <p>{chat.latest_message_content}</p>

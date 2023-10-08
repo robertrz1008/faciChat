@@ -1,8 +1,13 @@
-import React from 'react'
+import { useAuth } from "../../../context/AppContext"
+import { useChat } from "../../../context/ChatContext"
+import { Props } from "../../../interfaces/ReactStatusInterface"
+import { AppContextIn, ChatContextIn } from "../../../interfaces/contextInterfaces"
 
-function Header() {
+const  Header: React.FC<Props> = ({name})  => {
   return (
-    <div>Header</div>
+    <div className="chat-header">
+      <h2>{name}</h2>
+    </div>
   )
 }
 
