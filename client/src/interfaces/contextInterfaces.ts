@@ -37,17 +37,18 @@ export interface AppContextIn{
     user: User,
     loading: boolean,
     isAutenticate: boolean,
+    authLoading: boolean,
     errors: String[]
 }
 
 export interface ChatContextIn{
-    chats: Chat[]
-    chatId: number
-    getChats: () => void
-    createMessage: (message: createMsg) => void
-    getMessages: (id: number) => void
-    messages: Message[]
-    getId: (id: number) => void
+    chats: Chat[];
+    chatId: number;
+    getChats: () => void;
+    createMessage: (message: createMsg) => void;
+    getMessages: (id: number) => void;
+    messages: Message[];
+    getId: (id: number) => void;
 }
 
 export interface FormValues{

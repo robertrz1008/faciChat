@@ -19,9 +19,11 @@ export function ChatContextProvider({children}: contexArg) {
 
   const [chats, setChats] = useState([])
   const [messages, setMessages] = useState<Message[]>([])
-  const [chatId, setChatId] = useState(0)
   const [msgLoading, setMsgLoading] = useState(false)
 
+
+
+  //chat services
   const getChats = async () => {
     try {
       const res = await getChatsRequest()
@@ -30,7 +32,7 @@ export function ChatContextProvider({children}: contexArg) {
       console.log(error)
     }
   }
-
+  //message services
   const getMessages = async (id: number) => {
     setMsgLoading(true);
     try {
@@ -43,19 +45,6 @@ export function ChatContextProvider({children}: contexArg) {
       setMsgLoading(false);
     }
   };
-
-  function resiveMessage(msg: Message[]){
-    setMessages(msg)
-  }
-
-  useEffect(() =>{
-    socket.on('createMsg', resiveMessage)
-
-    return () => {
-      socket.off('createMsg', resiveMessage)
-    }
-  },[messages])
-
   const createMessage = async (message: createMsg) => {
     try {
       const response = await createMessageRequest(message)
@@ -65,6 +54,22 @@ export function ChatContextProvider({children}: contexArg) {
     }
   }
 
+  //function for websocket
+  function resiveMessage(msg: Message[]){
+    setMessages(msg)
+  }
+
+
+  useEffect(() =>{
+    socket.on('createMsg', resiveMessage)
+
+    return () => {
+      socket.off('createMsg', resiveMessage)
+    }
+  },[messages])
+
+
+
   return (
     <ChatContex.Provider value={{
       chats,
@@ -72,7 +77,6 @@ export function ChatContextProvider({children}: contexArg) {
       getMessages,
       messages,
       createMessage,
-      chatId
     }}>
         {children}
     </ChatContex.Provider>

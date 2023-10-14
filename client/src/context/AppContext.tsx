@@ -18,28 +18,35 @@ export function AppContextProvider({children}: contexArg) {
     const [user, setUser] = useState({})
     const [errors, setErrors] = useState()
     const [isAutenticate, setIstAutenticate] = useState(false)
+    const [authLoading, setAuthLoading] = useState(false)
     const [loading, setLoading] = useState(false)
 
     //funciones
     const singUp = async (user: User) => {
+        setAuthLoading(true)
         try {
             const res = await registerRequest(user)
+            setAuthLoading(false)
             setUser(res.data)
             setIstAutenticate(true)
         } catch (error) {
             if(axios.isAxiosError(error)){
                 console.log(error)
+                setAuthLoading(false)
                 setErrors(error.response?.data)
             }
         }
     }
 
     const singIn = async (user: User) => {
+        setAuthLoading(true)
         try {
             const res = await loginRequest(user)
+            setAuthLoading(false)
             setIstAutenticate(true)
         } catch (error) {
             if(axios.isAxiosError(error)){
+                setAuthLoading(false)
                 console.log(error)
                 setErrors(error.response?.data)
             }
@@ -92,6 +99,7 @@ export function AppContextProvider({children}: contexArg) {
         singIn,
         isAutenticate,
         loading,
+        authLoading,
         user,
         getProfile,
         errors

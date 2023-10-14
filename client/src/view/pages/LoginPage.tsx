@@ -4,11 +4,12 @@ import {useForm, SubmitHandler} from "react-hook-form"
 import { FormValues, AppContextIn } from "../../interfaces/contextInterfaces.ts"
 import {Link, useNavigate } from "react-router-dom"
 import { useEffect } from "react"
+import Spinner from "../components/Spinner.tsx"
 
 function LoginPage() {
 
     const {register, handleSubmit, formState:{errors}} = useForm<FormValues>()
-    const {singIn, isAutenticate, errors: loginErrors} = useAuth() as AppContextIn
+    const {singIn, isAutenticate, authLoading, errors: loginErrors} = useAuth() as AppContextIn
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -61,12 +62,16 @@ function LoginPage() {
                 )) : ""
             }
             <button className="auth-btn">Iniciar Secion</button>
+            {/* icono de carga */}
+            {
+            authLoading? (
+                <><Spinner/></>
+            ) : ""
+        }
         </form>
-
         <p>
             <Link to={"/register"} className="auth-link">¿Ya tienes una cuenta?</Link>
         </p>
-
     </div>
   )
 }

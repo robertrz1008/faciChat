@@ -78,6 +78,7 @@
 .auth-link{
     text-decoration: none;
     font-family: sans-serif;
+    margin-top: 10px;
     font-weight: bold;
     color: rgb(10, 83, 241);
 }
