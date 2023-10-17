@@ -6,8 +6,10 @@ import cookieParser from "cookie-parser"
 import http from "http"
 import autRoute from "./routes/auth.routes"
 import msgRoute from "./routes/message.routes"
+import proRoute from "./routes/profile.routes"
 import chatRoute from "./routes/chat.routes"
-import {Server} from "socket.io"
+import { Server} from "socket.io"
+import path from "path"
 
 const app = express()
 const server = http.createServer(app) 
@@ -24,6 +26,7 @@ app.use(cors({
 app.use(morgan("dev"))
 app.use(express.json())
 app.use(cookieParser())
+app.use(express.static(path.join(__dirname, "dbImages")))
 
 //socket configuracion
 socket.on("connection", (socket) => {
@@ -37,6 +40,7 @@ socket.on("connection", (socket) => {
 app.use("/api", autRoute)
 app.use("/api", msgRoute)
 app.use("/api", chatRoute)
+app.use("/api", proRoute)
 
 
 server.listen(PORT, () =>{

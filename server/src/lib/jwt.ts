@@ -1,6 +1,5 @@
 import jwt from "jsonwebtoken"
 import { TOKEN_SECREAT } from "../utils/config"
-import { number } from "zod";
 
 type userId = {
     id: any

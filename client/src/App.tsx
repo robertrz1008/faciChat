@@ -6,6 +6,7 @@ import LoginPage from './view/pages/LoginPage'
 import ProtectedRoute from './view/components/RouteProtected'
 import AppPage from './view/pages/AppPage'
 import ChatPage from './view/pages/ChatPage'
+import ProfileForm from './view/components/profile/ProfileForm'
 
 function App() {
 
@@ -15,6 +16,7 @@ function App() {
             <Routes>
               <Route path={"/register"} element={<RegisterPage/>}/>
               <Route path={"/login"} element={<LoginPage/>}/>
+              <Route path={"/images"} element={<ProfileForm/>}/>
 
               <Route element={<ProtectedRoute/>}>
                   <Route path={"/chat/*"} element={<AppPage />}>

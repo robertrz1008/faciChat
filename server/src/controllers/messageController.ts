@@ -1,4 +1,4 @@
-import { Request, Response, json } from "express";
+import { Request, Response } from "express";
 import connectdb from "../utils/connectiondb";
 import { CustomRequest } from "../utils/Interfaces";
 import { socket } from "../main";

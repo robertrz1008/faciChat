@@ -28,6 +28,12 @@ export interface createMsg{
     id_user: number,
     id_chat: number,
 }
+export interface Image{
+    id: number;
+    type: string;
+    name: string;
+    data: string;
+}
 
 //context interface
 export interface AppContextIn{
