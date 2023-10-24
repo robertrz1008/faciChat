@@ -20,6 +20,10 @@ DESCRIBE users;
 
 use ventadb;
 
-SELECT * FROM products; ORDER BY id DESC LIMIT 1
+SELECT * FROM products ORDER BY id DESC LIMIT 1
 
-update products set nombre = "jose" WHERE id = 64
+update users set id_image = 6 WHERE id = 9
+
+SELECT * from messages;
+
+DESCRIBE images

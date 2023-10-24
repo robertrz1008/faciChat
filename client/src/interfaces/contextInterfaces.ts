@@ -6,12 +6,14 @@ export interface contexArg {
 export interface User {
     id?: number,
     name?: string,
+    id_image: number,
     email: string,
     password: string
 }
 export interface Chat{
     user_name: string,
     chat_id: number,
+    id_image: number,
     latest_message_content: string,
     latest_message_time: string
 }
@@ -40,6 +42,9 @@ export interface AppContextIn{
     singUp: (user: User) => void,
     singIn: (user: User) => void,
     getProfile: () => void,
+    getImgProfile: (id: number) => void,
+    userImg: number,
+    logout: () => void;
     user: User,
     loading: boolean,
     isAutenticate: boolean,

@@ -2,16 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../../../context/AppContext';
 import { AppContextIn } from '../../../interfaces/contextInterfaces';
 import ModalProfile from './ModalProfile';
+import ProfileImg from './ProfileImg';
 
 function Profile(): JSX.Element {
-  const { user, getProfile } = useAuth() as AppContextIn;
+  const { user, userImg, getProfile,getImgProfile } = useAuth() as AppContextIn;
   const [openModal, setOpenModal] = useState(false);
 
   useEffect(() => {
     getProfile();
   }, []);
 
-  const handleOpen = () => {
+  let id= user.id_image
+
+  useEffect(() => {
+    if (id) {
+      getImgProfile(user.id_image)
+    }
+  }, [id]);
+
+  const handleOpen = () => { 
     setOpenModal(true);
   };
 
@@ -25,11 +34,14 @@ function Profile(): JSX.Element {
     } else {
       return (
         <div className="panel-profile">
-          <div>
-            <h2 onClick={handleOpen}>{user.name}</h2>
+            <div>
+                <div className='panel-profile-con-img' style={{width: "70px", height: "70px",}} onClick={handleOpen}>
+                    <ProfileImg 
+                            file={userImg}/>
+                </div>
             <h2>more</h2>
-          </div>
-          <ModalProfile handleClose={handleClose} openModal={openModal} />
+            </div>
+            <ModalProfile handleClose={handleClose} openModal={openModal} />
         </div>
       );
     }

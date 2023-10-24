@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
 import Button from '@mui/material/Button';
+import "../../css/Modal.css"
+import { useAuth } from '../../../context/AppContext';
+import { AppContextIn } from '../../../interfaces/contextInterfaces';
+import ProfileConfig from '../profile/ProfileConfig';
+import ProfileForm from '../profile/ProfileForm';
 
 type ModalProp = {
   handleClose: () => void;
@@ -8,6 +13,9 @@ type ModalProp = {
 }
 
 function ModalProfile({ handleClose, openModal }: ModalProp): JSX.Element {
+
+  const [isForm, setIsForm] = useState(true)
+
   return (
     <Modal
       open={openModal}
@@ -16,13 +24,11 @@ function ModalProfile({ handleClose, openModal }: ModalProp): JSX.Element {
       aria-describedby="simple-modal-description"
     >
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '10px' }}>
-        <h2 id="simple-modal-title">Modal Title</h2>
-        <p id="simple-modal-description">
-          This is the content of the modal. You can add any content you want here.
-        </p>
-        <Button onClick={handleClose} color="primary">
-          Close
-        </Button>
+        <div className='modal-con'>
+            {
+              !isForm? ( <ProfileConfig/> ) : (<ProfileForm/>)
+            }
+        </div>
       </div>
     </Modal>
   );

@@ -1,13 +1,22 @@
-import { useAuth } from "../../../context/AppContext"
-import { useChat } from "../../../context/ChatContext"
-import { Props } from "../../../interfaces/ReactStatusInterface"
-import { AppContextIn, ChatContextIn } from "../../../interfaces/contextInterfaces"
 
-const  Header: React.FC<Props> = ({name})  => {
+import ChatUserImg from "../ChatPanel/ChatUserImg"
+
+type Props={
+  name: string,
+  imgId: number
+}
+
+const  Header: React.FC<Props> = ({name, imgId})  => {
+ 
+
   return (
-    <div className="chat-header">
-      <h2>{name}</h2>
-    </div>
+    <header className="chat-header">
+          <div style={{width:"52px", height:"52px", }}>
+            <ChatUserImg
+                  userId={imgId}/>
+          </div>
+          <h2>{name}</h2>
+    </header>
   )
 }
 

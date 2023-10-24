@@ -29,13 +29,8 @@
     width: 90%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
-.panel-profile div h2{
-    cursor: pointer;
-    font-weight: lighter;
-    font-size: 1.7rem;
-}
-
 .chat-list{
     overflow-y: scroll;
 }
@@ -51,21 +46,24 @@
 .chat-target{
     font-family: sans-serif;
     font-weight: lighter;
-    padding-left: 4%;
+    padding-left: 10px;
     padding-top: 2%;
+    display: flex;
+    align-items: center;
     padding-bottom: 2%;
 }
 .chat-target:hover{
     background-color: #c9d3db;
 }
-.chat-target h3{
+.chat-target-texts h3{
     font-size: 15px;
     text-decoration: none;
-    font-size: 1rem;
-    color: black;
+    font-size: 1.2rem;
+    color: rgb(48, 48, 48);
 }
-.chat-target p{
+.chat-target-texts h5{
     font-size: 14px;
+    font-size: 13px;
     color: rgb(53, 51, 51);
 }
 
@@ -88,6 +86,7 @@
     font-family: sans-serif;
     font-weight: lighter;
     font-size: 2rem;
+    margin-left: 6px;
 }
 
 .chat-form textarea{

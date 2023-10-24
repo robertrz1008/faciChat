@@ -3,6 +3,7 @@ import connectdb from "../utils/connectiondb";
 import fs from "fs"
 import path from "path"
 import { CustomRequest } from "../utils/Interfaces";
+import { getElementByNumber } from "../utils/seachFile";
 
 type Image ={
     id: number,
@@ -24,11 +25,13 @@ export const updateName = async (req: Request, res: Response) => {
 export const getImagesProfilebyId = async (req: Request, res: Response) => {
     try {
         const response = await connectdb.query('SELECT * FROM images WHERE id = ?', [req.params.id])
+        if(Array.isArray(response[0]) && response[0].length == 0) res.status(404).json({msg: "no hay archivos"})
         const file: Image[] | any = response[0]
 
-        fs.writeFileSync(path.join(__dirname, '../dbImages/' + file.id + "-facichat.png"), file.data)
-        const image = fs.readdirSync(path.join(__dirname, '../dbImages/'))
-        res.json(image)
+        fs.writeFileSync(path.join(__dirname, '../dbImages/' + file[0].id + "-facichat.png"), file[0].data)
+        const images = fs.readdirSync(path.join(__dirname, '../dbImages/'))
+        let fileFound = getElementByNumber(images, parseInt(req.params.id))
+        res.json(fileFound)
     } catch (error) {
         console.log(error)
     }

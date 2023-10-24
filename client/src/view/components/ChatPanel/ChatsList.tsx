@@ -1,18 +1,24 @@
 import {useEffect} from 'react'
 import { useChat } from '../../../context/ChatContext'
 import { Link } from 'react-router-dom'
-import { ChatContextIn } from '../../../interfaces/contextInterfaces' 
+import { AppContextIn, ChatContextIn } from '../../../interfaces/contextInterfaces'
+import { useAuth } from '../../../context/AppContext'
+import ChatUserImg from './ChatUserImg'
 
 function ChatsList() {
 
   const {chats, getChats} = useChat() as ChatContextIn
+  const {getImgProfile} = useAuth() as AppContextIn
 
-  useEffect(() => {
+  useEffect(() => { 
     if(chats.length == 0){
       getChats()
     }
   }, [])
-
+  
+  useEffect(() => { 
+    console.log(chats)
+  }, [chats])
 
   if(!chats || chats.length == 0){
 
@@ -22,13 +28,21 @@ function ChatsList() {
     return (
         <div className='chat-list'>
           {
+            
             chats.map((chat) => (
-              <Link to={`conversation/${chat.chat_id}/${chat.user_name}`} key={chat.chat_id}>
+              <Link to={`conversation/${chat.chat_id}/${chat.user_name}/${chat.id_image}`} key={chat.chat_id}>
                   <div className='chat-target'>
-                      <h3>{chat.user_name}</h3>
-                      <p>{chat.latest_message_content}</p>
+                      <div style={{width: "47px", height: "47px"}}>
+                        <ChatUserImg
+                                userId = {chat.id_image}
+                        />
+                      </div>
+                      <div className='chat-target-texts' style={{marginLeft: "10px",}}>
+                          <h3>{chat.user_name}</h3>
+                          <h5>{chat.latest_message_content}</h5>
+                      </div>
                   </div>
-              </Link>
+              </Link> 
             ))
           }
         </div>

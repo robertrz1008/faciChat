@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { Message, contexArg, createMsg } from "../interfaces/contextInterfaces"
 import { createMessageRequest, getChatsRequest, getMessageRequest } from "../api/chatRequest"
 import io from "socket.io-client"
+import { getImageByIdRequest } from "../api/profileRequest"
 
 export const socket = io('http://localhost:4000')
 

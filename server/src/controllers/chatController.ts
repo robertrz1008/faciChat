@@ -24,7 +24,7 @@ export const getChatsPrivateRequest = async (req: CustomRequest, res: Response) 
     try {
         const mychat = await connectdb.query(`SELECT * FROM users_chat WHERE id_user = ?`, [req.user.id])
         const userchat = await connectdb.query(`SELECT
-        u.name AS user_name,c.id AS chat_id,
+        u.name AS user_name, u.id_image AS id_image,c.id AS chat_id,
         m.containe AS latest_message_content,
         mt.latest_message AS latest_message_time
     FROM

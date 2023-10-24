@@ -4,7 +4,7 @@ import upload from "../middleware/upload";
 
 const proRoute = Router();
 
-proRoute.get("/profile/image:id", getImagesProfilebyId)
+proRoute.get("/profile/image/:id", getImagesProfilebyId)
 proRoute.post("/profile/image", upload, createImageProfile)
 proRoute.put("/profile/:id", changeUserImageProfile)
 proRoute.delete("/profile/image/:id", deleteImageProdile)
