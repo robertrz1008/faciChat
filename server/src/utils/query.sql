@@ -11,7 +11,7 @@ CREATE TABLE images(
 );
 SELECT * FROM users;
 
-DELETE FROM chats;
+DELETE FROM images WHERE id > 6;
 
 ALTER TABLE users ADD id_image INT DEFAULT 2;
 ALTER TABLE users ADD Foreign Key(id_image) REFERENCES images(id);
@@ -22,8 +22,9 @@ use ventadb;
 
 SELECT * FROM products ORDER BY id DESC LIMIT 1
 
-update users set id_image = 6 WHERE id = 9
+update users set id_image = 6 WHERE id >6
 
-SELECT * from messages;
+SELECT * from images;
 
 DESCRIBE images
+

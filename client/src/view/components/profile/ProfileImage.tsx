@@ -1,10 +1,10 @@
-import React, { FC } from 'react'
-import { useAuth } from '../../../context/AppContext';
-import { AppContextIn } from '../../../interfaces/contextInterfaces';
 
-const ProfileImage: FC =()=>  {
+type Props = {
+  userImg: String
+}
 
-  const {userImg} = useAuth() as AppContextIn
+function ProfileImage({userImg}: Props): JSX.Element {
+
 
   return (
     <div className='profile-img-con'>

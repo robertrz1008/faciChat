@@ -8,7 +8,6 @@ function ChatPage(): JSX.Element {
 
   const {id, name, imgId} = useParams()
 
-  console.log(imgId)
   return ( 
     <div className="chat-body">
       <Header

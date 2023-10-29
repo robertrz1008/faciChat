@@ -28,6 +28,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "dbImages")))
 
+
 //socket configuracion
 socket.on("connection", (socket) => {
     console.log("user connected")

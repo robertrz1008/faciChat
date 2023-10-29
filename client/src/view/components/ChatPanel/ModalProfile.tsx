@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import Modal from '@mui/material/Modal';
-import Button from '@mui/material/Button';
-import "../../css/Modal.css"
-import { useAuth } from '../../../context/AppContext';
-import { AppContextIn } from '../../../interfaces/contextInterfaces';
 import ProfileConfig from '../profile/ProfileConfig';
 import ProfileForm from '../profile/ProfileForm';
+import "../../css/Modal.css"
 
 type ModalProp = {
   handleClose: () => void;
@@ -14,7 +11,12 @@ type ModalProp = {
 
 function ModalProfile({ handleClose, openModal }: ModalProp): JSX.Element {
 
-  const [isForm, setIsForm] = useState(true)
+  const [isForm, setIsForm] = useState(false)
+
+  
+   const profileFormOpen = () => setIsForm(true)
+   const profileFormClose = () => setIsForm(false)
+  
 
   return (
     <Modal
@@ -24,11 +26,12 @@ function ModalProfile({ handleClose, openModal }: ModalProp): JSX.Element {
       aria-describedby="simple-modal-description"
     >
       <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '10px' }}>
-        <div className='modal-con'>
-            {
-              !isForm? ( <ProfileConfig/> ) : (<ProfileForm/>)
-            }
-        </div>
+          <div className='modal-con'>
+              {
+                !isForm? ( <ProfileConfig profileFormOpen= {profileFormOpen}/> )
+                        : (<ProfileForm  profileFormClose={profileFormClose}/>)
+              }
+          </div>
       </div>
     </Modal>
   );

@@ -1,11 +1,12 @@
 import { ReactNode } from "react";
+import { Name } from "../api/profileRequest";
 
 export interface contexArg {
     children: ReactNode
 }
 export interface User {
-    id?: number,
-    name?: string,
+    id: number,
+    name: string,
     id_image: number,
     email: string,
     password: string
@@ -43,7 +44,8 @@ export interface AppContextIn{
     singIn: (user: User) => void,
     getProfile: () => void,
     getImgProfile: (id: number) => void,
-    userImg: number,
+    updateNameProfile: (id:number ,name: Name) => void,
+    userImg: string,
     logout: () => void;
     user: User,
     loading: boolean,

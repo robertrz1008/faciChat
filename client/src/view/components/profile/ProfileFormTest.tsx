@@ -1,5 +1,5 @@
 import { useState, useEffect, ChangeEvent } from 'react'
-import { changeImagesRequest, createImagesRequest, getImageByIdRequest } from '../../../api/profileRequest'
+import { createImagesRequest } from '../../../api/profileRequest'
 import { Image } from '../../../interfaces/contextInterfaces'
 
 function ProfileForm() {

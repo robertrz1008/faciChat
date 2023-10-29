@@ -3,7 +3,7 @@ import { User, contexArg } from "../interfaces/contextInterfaces"
 import { getProfileRequest, loginRequest, logoutRequest, registerRequest, vefifyTokenRequest } from "../api/authRequest"
 import axios from "axios"
 import Cookies from "js-cookie"
-import { getImageByIdRequest } from "../api/profileRequest"
+import { getImageByIdRequest, updateNameProfileRequest } from "../api/profileRequest"
 
 const appContext = createContext({})
 
@@ -97,6 +97,7 @@ export function AppContextProvider({children}: contexArg) {
             console.log(error)
         }
     }
+
     const getImgProfile = async(id: number) => {
         try {
             const file = await getImageByIdRequest(id)
@@ -106,6 +107,17 @@ export function AppContextProvider({children}: contexArg) {
         }
     }
 
+    type Name={name: string}
+    const updateNameProfile = async(id:number, name: Name) => {
+        try {
+            await updateNameProfileRequest(id, name)
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+ 
     useEffect(() => {
         checkLogin()
     }, [])
@@ -124,6 +136,7 @@ export function AppContextProvider({children}: contexArg) {
         userImg,
         getProfile,
         getImgProfile,
+        updateNameProfile,
         logout,
         errors
     }}>
