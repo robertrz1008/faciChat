@@ -1,4 +1,4 @@
-import { Response } from "express";
+import { Request, Response } from "express";
 import { CustomRequest } from "../utils/Interfaces";
 import connectdb from "../utils/connectiondb";
 
@@ -75,6 +75,33 @@ export const createChatPrivateRequest = async (req: CustomRequest, res: Response
             connectdb.query(`INSERT INTO users_chat(id_user, id_chat) VALUES(?, ?);`, [userId ,chatFound.id])
             
             res.json({message: "chat privado creado con exito"})
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const getUserByFilter = async  (req: CustomRequest, res: Response) => {
+
+    type User = {
+        id: number,
+        name: string,
+        email: string,
+        password: string
+    }
+
+    function userList(profile: User, list: User[]){
+        const myList = list.filter((user) => user.id != profile.id)
+        return myList
+    }
+
+    try {
+        const response = await connectdb.query(`SELECT * FROM users WHERE name LIKE "%${req.params.str}%"`)
+        if(Array.isArray(response[0])){
+            const mychatList: any = response[0]
+            const profile = req.user
+            const newUserList = userList(profile, mychatList)
+            res.json(newUserList)
         }
     } catch (error) {
         console.log(error)

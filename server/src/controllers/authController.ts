@@ -82,7 +82,7 @@ export const profileRequest = async (req: CustomRequest, res: Response) => {
     try {
         const response = await connectdb.query(`SELECT * FROM users WHERE id = ?`, [req.user.id])
         if(!response[0]){
-            return res.status(404).json({message: "User not Found"})
+            return res.status(404).json({message: "User not Found"}) 
         }
         res.json(response[0]) 
     } catch (error) {

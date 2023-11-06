@@ -1,24 +1,18 @@
 import {useEffect} from 'react'
 import { useChat } from '../../../context/ChatContext'
 import { Link } from 'react-router-dom'
-import { AppContextIn, ChatContextIn } from '../../../interfaces/contextInterfaces'
-import { useAuth } from '../../../context/AppContext'
+import { ChatContextIn } from '../../../interfaces/contextInterfaces'
 import ChatUserImg from './ChatUserImg'
 
 function ChatsList() {
 
   const {chats, getChats} = useChat() as ChatContextIn
-  const {getImgProfile} = useAuth() as AppContextIn
 
   useEffect(() => { 
     if(chats.length == 0){
       getChats()
     }
   }, [])
-  
-  useEffect(() => { 
-    console.log(chats)
-  }, [chats])
 
   if(!chats || chats.length == 0){
 

@@ -1,12 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuth } from '../../../context/AppContext';
-import { AppContextIn } from '../../../interfaces/contextInterfaces';
+import { AppContextIn, ChatContextIn } from '../../../interfaces/contextInterfaces';
 import ModalProfile from './ModalProfile';
 import ProfileImg from './ProfileImg';
+import ModalSearch from './ModalSearch';
+import { useChat } from '../../../context/ChatContext';
 
 function Profile(): JSX.Element {
   const { user, userImg, getProfile,getImgProfile } = useAuth() as AppContextIn;
+  const {cleanUsersList} = useChat() as ChatContextIn
+
   const [openModal, setOpenModal] = useState(false);
+  const [openSearchModal, setOpenSearchModal] = useState(false);
+  const [modalClose, setModalClose] = useState(false)
 
   useEffect(() => {
     getProfile();
@@ -20,16 +26,25 @@ function Profile(): JSX.Element {
     }
   }, [id]);
 
-  const handleOpen = () => { 
+  //Modals
+  function handleOpen() { 
     setOpenModal(true);
   };
-
-  const handleClose = () => {
+  function handleClose() {
     setOpenModal(false);
+  };
+  function handleOpenSM() { 
+    setOpenSearchModal(true);
+    setModalClose(false)
+  };
+  function handleCloseSM() {
+    setOpenSearchModal(false);
+    setModalClose(true) // al serrar el modal
+    cleanUsersList() // vacia la lista
   };
 
   const renderProfile = () => {
-    if (!user || Object.keys(user).length === 0) {
+    if (!user || Object.keys(user).length == 0) {
       return <h3>Cargando...</h3>;
     } else {
       return (
@@ -39,9 +54,18 @@ function Profile(): JSX.Element {
                     <ProfileImg 
                             file={userImg}/>
                 </div>
-            <h2>more</h2>
+            <h2 style={{cursor:"pointer"}} onClick={handleOpenSM}>more</h2>
             </div>
-            <ModalProfile handleClose={handleClose} openModal={openModal} />
+            {/* modales */}
+            <ModalProfile 
+                    handleClose={handleClose} 
+                    openModal={openModal} 
+            />
+            <ModalSearch 
+                    handleCloseSM={handleCloseSM} 
+                    openSearchModal={openSearchModal}
+                    modalClose={modalClose}
+            />
         </div>
       );
     }

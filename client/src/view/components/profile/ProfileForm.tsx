@@ -92,6 +92,7 @@ function ProfileForm({profileFormClose}: Props): JSX.Element{
 
   return (
     <div className='profile-form-body'>
+          //imagen
           {
             !fileURL? (<ProfileImage userImg={userImg}/>) : (<ProfileImgForm userImg={fileURL}/>)
           }

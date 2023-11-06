@@ -62,6 +62,9 @@ export interface ChatContextIn{
     getMessages: (id: number) => void;
     messages: Message[];
     getId: (id: number) => void;
+    cleanUsersList: () => void
+    userList: User[]
+    getUserByFilter: (filter: string) => void
 }
 
 export interface FormValues{
