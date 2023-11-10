@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { Message, User, contexArg, createMsg } from "../interfaces/contextInterfaces"
-import { createMessageRequest, getChatByFilterRequest, getChatsRequest, getMessageRequest } from "../api/chatRequest"
+import { createMessageRequest, getChatByFilterRequest, getChatsRequest, getMessageRequest, verifyChatRequest } from "../api/chatRequest"
 import io from "socket.io-client"
 
 export const socket = io('http://localhost:4000')
@@ -32,6 +32,7 @@ export function ChatContextProvider({children}: contexArg) {
       console.log(error)
     }
   }
+ 
   //message services
   const getMessages = async (id: number) => {
     setMsgLoading(true);

@@ -38,7 +38,7 @@ socket.on("connection", (socket) => {
     })
 })
 
-app.use("/api", autRoute)
+app.use("/api", autRoute) 
 app.use("/api", msgRoute)
 app.use("/api", chatRoute)
 app.use("/api", proRoute)

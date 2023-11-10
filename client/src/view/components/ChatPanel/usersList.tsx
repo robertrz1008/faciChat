@@ -3,7 +3,7 @@ import ChatUserImg from './ChatUserImg'
 
 type Props  ={
   usersList: User[]
-  hanldeSelect: (name: string, idImage: number) => void
+  hanldeSelect: (u: User) => void
 }
 
 function UsersList({usersList, hanldeSelect}: Props): JSX.Element {
@@ -17,8 +17,8 @@ function UsersList({usersList, hanldeSelect}: Props): JSX.Element {
           usersList.map((user) => (
                 <div 
                     key={user.id} 
-                    onDoubleClick={() =>{
-                      hanldeSelect(user.name, user.id_image)
+                    onClick={() =>{
+                      hanldeSelect({...user})
                     }}
                     className='chat-target'
                 >

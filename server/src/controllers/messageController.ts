@@ -35,7 +35,6 @@ export const getMessagesbyAdmin = async (req: Request, res: Response) => {
     } catch (error) {
         console.log(error)
     }
-    
 }
 
 export const getMessagesByChatId = async (req: CustomRequest, res: Response) => {
@@ -69,7 +68,7 @@ export const createMessage = async (req: CustomRequest, res: Response) => {
 export const deleteMessage = async (req: Request, res: Response) => {
     try {
         await connectdb.query(`DELETE FROM messages WHERE id = ?`, [req.params.id])
-        res.json({message: "mensage eliminado"})
+        // res.json({message: "mensage eliminado"})
     } catch (error) {
         console.log(error)
     }

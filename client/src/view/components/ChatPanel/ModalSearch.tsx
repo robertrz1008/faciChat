@@ -2,8 +2,10 @@ import { ChangeEvent, useState, useEffect } from 'react'
 import Modal from '@mui/material/Modal';
 import "../../css/ModalSearch.css"
 import { useChat } from '../../../context/ChatContext';
-import { ChatContextIn } from '../../../interfaces/contextInterfaces';
+import { ChatContextIn, User } from '../../../interfaces/contextInterfaces';
 import UsersList from './usersList';
+import { useNavigate } from 'react-router-dom';
+import { createChatsRequest, verifyChatRequest } from '../../../api/chatRequest';
 
 type ModalProp = {
     handleCloseSM: () => void;
@@ -15,7 +17,9 @@ function ModalSearch({handleCloseSM, openSearchModal, modalClose}: ModalProp): J
   
   const {userList, getUserByFilter, cleanUsersList} = useChat() as ChatContextIn
   const [isDisabled, setIsDesabled] = useState(true)
+  const [userSelect, setUserSelect] = useState<User>()
   const [btnText, setBtnText] = useState("")
+  const navigate = useNavigate()
 
   const buttonOff = () => setIsDesabled(true)
   const buttonOn = () => setIsDesabled(false)
@@ -33,17 +37,40 @@ function ModalSearch({handleCloseSM, openSearchModal, modalClose}: ModalProp): J
     }
     getUserByFilter(input)
   }
-  function hanldeSelect(name: string, idImage: number){
-    console.log({name, idImage})
-    setBtnText(name)
+
+  function hanldeSelect(u: User){
+    setUserSelect(u)
+    setBtnText(u.name)
     buttonOn()
+  }
+
+  const getOrCreateChat = async (id: number) => {
+
+    type chatUserparam = {
+      user_name: string,
+      id_image: number,
+      chat_id: Number
+  }
+
+    try {
+      const res: any = await verifyChatRequest(id)
+      let userChat: chatUserparam = res.data[0];
+      if(res.data.length == 0){
+        await createChatsRequest({userId: id})
+        const res: any = await verifyChatRequest(id)
+        userChat = res.data[0]
+      }
+      handleCloseSM()
+      navigate(`/chat/conversation/${userChat.chat_id}/${userChat.user_name}/${userChat.id_image}`)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   useEffect(() => {
     if(modalClose){
       buttonOff()
       setBtnText("")
-      console.log("cerrado")
     }
   }, [modalClose])
 
@@ -73,7 +100,7 @@ function ModalSearch({handleCloseSM, openSearchModal, modalClose}: ModalProp): J
               <UsersList usersList={userList} hanldeSelect={hanldeSelect}/>
                 <center>
                     <button 
-                        onClick={() => console.log("click")} 
+                        onClick={() => getOrCreateChat(userSelect?.id as number)} 
                         disabled={isDisabled}
                         className={isDisabled? "buttonOff" : 'button'}
                     >

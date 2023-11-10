@@ -71,8 +71,8 @@ export const createChatPrivateRequest = async (req: CustomRequest, res: Response
         if (Array.isArray(response[0])) {
             const chatFound: any = response[0][response[0].length -1]
             //para definir quienes seran los integrantes de la combersacion
-            connectdb.query(`INSERT INTO users_chat(id_user, id_chat) VALUES(?, ?);`, [yo ,chatFound.id])
-            connectdb.query(`INSERT INTO users_chat(id_user, id_chat) VALUES(?, ?);`, [userId ,chatFound.id])
+            await connectdb.query(`INSERT INTO users_chat(id_user, id_chat) VALUES(?, ?);`, [yo ,chatFound.id])
+            await connectdb.query(`INSERT INTO users_chat(id_user, id_chat) VALUES(?, ?);`, [userId ,chatFound.id])
             
             res.json({message: "chat privado creado con exito"})
         }
@@ -103,6 +103,47 @@ export const getUserByFilter = async  (req: CustomRequest, res: Response) => {
             const newUserList = userList(profile, mychatList)
             res.json(newUserList)
         }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export const verifyChatByUser = async  (req: CustomRequest, res: Response) => {
+
+    type chatUser = {
+        user_name: string, 
+        id_image: number,
+        chat_id: Number
+    }
+
+    function findChat(arr1: chatUser[], arr2: chatUser[]){
+        const newX = arr1.reduce((cc, el) => cc.concat(el.chat_id), [] as Number[])
+        const mY = arr2.filter(data => newX.indexOf(data.chat_id) != -1)
+        return mY
+    }
+    try {
+        const myChats: any = await connectdb.query(`
+            select 
+                u.name as user_name, 
+                u.id_image as id_image,
+                uc.id_chat as chat_id
+            from 
+                users u join users_chat uc
+            on 
+                u.id = uc.id_user 
+            where u.id = ?;`, [req.user.id])
+        const userChat: any = await connectdb.query(`
+        select 
+            u.name as user_name, 
+            u.id_image as id_image,
+            uc.id_chat as chat_id
+        from 
+            users u join users_chat uc
+        on 
+            u.id = uc.id_user 
+        where u.id = ?;`, [req.params.id])
+        const chatTest= findChat(myChats[0], userChat[0])
+        res.json(chatTest)
     } catch (error) {
         console.log(error)
     }
