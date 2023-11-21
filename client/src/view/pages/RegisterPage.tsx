@@ -2,13 +2,13 @@ import { useAuth } from "../../context/AppContext.tsx"
 import "../css/RegisterPage.css"
 import { Link, useNavigate } from "react-router-dom"
 import {useForm, SubmitHandler} from "react-hook-form"
-import { FormValues, AppContextIn } from "../../interfaces/contextInterfaces.ts"
+import { FormValues, AppContextIn, User } from "../../interfaces/contextInterfaces.ts"
 import { useEffect } from "react"
 
 function RegisterPage() {
 
     const {register, handleSubmit, formState:{errors}} = useForm<FormValues>()
-    const {singUp,isAutenticate ,errors: registerErrors} = useAuth() as AppContextIn
+    const {isDisabled, singUp, isAutenticate , authLoading, errors: registerErrors} = useAuth() as AppContextIn
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -16,7 +16,7 @@ function RegisterPage() {
       },[isAutenticate])
 
     const submit: SubmitHandler<FormValues> = async (data) => {
-        singUp(data)
+        singUp(data as User)
     }
 
   return (
@@ -70,7 +70,14 @@ function RegisterPage() {
                     </div>
                 )) : ""
             }
-            <button className="auth-btn">Registrarse</button>
+            <button 
+                disabled={isDisabled}
+                className={authLoading? "auth-buttonOff" : "auth-btn"}
+            >
+                {
+                authLoading? "Registrando..." : "Registrarse"
+                }
+            </button>
         </form>
 
         <p>

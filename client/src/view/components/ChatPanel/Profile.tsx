@@ -5,6 +5,7 @@ import ModalProfile from './ModalProfile';
 import ProfileImg from './ProfileImg';
 import ModalSearch from './ModalSearch';
 import { useChat } from '../../../context/ChatContext';
+import { LuMessageSquarePlus } from "react-icons/lu";
 
 function Profile(): JSX.Element {
   const { user, userImg, getProfile,getImgProfile } = useAuth() as AppContextIn;
@@ -49,12 +50,20 @@ function Profile(): JSX.Element {
     } else {
       return (
         <div className="panel-profile">
-            <div>
+            <div className='panel-profile-con'>
+              {/* imagen */}
                 <div className='panel-profile-con-img' style={{width: "70px", height: "70px",}} onClick={handleOpen}>
                     <ProfileImg 
                             file={userImg}/>
                 </div>
-            <h2 style={{cursor:"pointer"}} onClick={handleOpenSM}>more</h2>
+                {/* icon */}
+                <div 
+                  className='chat-icon-con' 
+                  style={{cursor:"pointer"}} 
+                  onClick={handleOpenSM}
+                >
+                  <LuMessageSquarePlus />
+                </div>
             </div>
             {/* modales */}
             <ModalProfile 

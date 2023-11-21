@@ -1,12 +1,16 @@
 import {useEffect} from 'react'
 import { useChat } from '../../../context/ChatContext'
 import { useNavigate } from 'react-router-dom'
-import { ChatContextIn } from '../../../interfaces/contextInterfaces'
+import { AppContextIn, ChatContextIn } from '../../../interfaces/contextInterfaces'
 import ChatUserImg from './ChatUserImg'
+import getDate from '../../../utils/date'
+import msgText from '../../../utils/messageText'
+import { useAuth } from '../../../context/AppContext'
 
 function ChatsList() {
 
-  const {chats, getChats} = useChat() as ChatContextIn
+  const {chats, getChats, idChat} = useChat() as ChatContextIn
+  const {user} = useAuth() as AppContextIn
   const navigate = useNavigate()
 
   useEffect(() => { 
@@ -14,6 +18,18 @@ function ChatsList() {
       getChats()
     }
   }, [])
+
+  useEffect(() => { 
+    getChats()
+  }, [user])
+
+  function isChatSelected(id: number){
+    if(id == idChat){
+      return "chat-target-selected"
+    }else{
+      return "chat-target"
+    }
+  }
 
   if(!chats || chats.length == 0){
 
@@ -29,16 +45,22 @@ function ChatsList() {
                     onClick={() => {
                       navigate(`/chat/conversation/${chat.chat_id}/${chat.user_name}/${chat.id_image}`)
                     }}
-                    className='chat-target' 
+                    className={isChatSelected(chat.chat_id)}
                     key={chat.chat_id}>
                       <div style={{width: "47px", height: "47px"}}>
                         <ChatUserImg
                                 userId = {chat.id_image}
                         />
                       </div>
+
                       <div className='chat-target-texts' style={{marginLeft: "10px",}}>
-                          <h3>{chat.user_name}</h3>
-                          <h5>{chat.latest_message_content}</h5>
+                          <div>
+                              <h3>{chat.user_name}</h3>
+                              <h5>{msgText(chat.latest_message_content)}</h5>
+                          </div>
+                          <div className='timestamp-con'>
+                              <h5>{getDate(chat.latest_message_time)}</h5>
+                          </div>
                       </div>
                   </div>
             ))
@@ -47,7 +69,6 @@ function ChatsList() {
       )
   }
   
-  // 
 }
 
 export default ChatsList

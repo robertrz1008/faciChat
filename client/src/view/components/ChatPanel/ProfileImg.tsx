@@ -1,6 +1,4 @@
-import React, { FC } from 'react'
-import { useAuth } from '../../../context/AppContext'
-import { AppContextIn } from '../../../interfaces/contextInterfaces'
+import { FC } from 'react'
 import "../../css/profileImgMin.css"
 
 type Props={

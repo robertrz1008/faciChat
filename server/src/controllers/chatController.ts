@@ -23,30 +23,35 @@ export const getChatsPrivateRequest = async (req: CustomRequest, res: Response) 
     
     try {
         const mychat = await connectdb.query(`SELECT * FROM users_chat WHERE id_user = ?`, [req.user.id])
-        const userchat = await connectdb.query(`SELECT
-        u.name AS user_name, u.id_image AS id_image,c.id AS chat_id,
-        m.containe AS latest_message_content,
-        mt.latest_message AS latest_message_time
-    FROM
-        users u
-    JOIN
-        users_chat uc ON u.id = uc.id_user
-    JOIN
-        chats c ON uc.id_chat = c.id
-    JOIN (
+        const userchat = await connectdb.query(`
         SELECT
-            m.id_chat,
-            MAX(m.creation) AS latest_message
+            u.name AS user_name, 
+            u.id_image AS id_image,
+            c.id AS chat_id,
+            m.containe AS latest_message_content,
+            mt.latest_message AS latest_message_time
         FROM
-            messages m
-        GROUP BY
-            m.id_chat
-    ) mt ON c.id = mt.id_chat
-    JOIN
-        messages m ON mt.latest_message = m.creation AND mt.id_chat = m.id_chat
-    WHERE
-        m.containe IS NOT NULL and uc.id_user <> ? ;
-    `, [req.user.id])
+            users u
+        JOIN
+            users_chat uc ON u.id = uc.id_user
+        JOIN
+            chats c ON uc.id_chat = c.id
+        JOIN (
+            SELECT
+                m.id_chat,
+                MAX(m.creation) AS latest_message
+            FROM
+                messages m
+            GROUP BY
+                m.id_chat
+        ) mt ON c.id = mt.id_chat
+        JOIN
+            messages m ON mt.latest_message = m.creation AND mt.id_chat = m.id_chat
+        WHERE
+            m.containe IS NOT NULL and uc.id_user <> ? 
+        ORDER BY
+            latest_message_time DESC
+        `, [req.user.id])
         if (Array.isArray(mychat[0]) && Array.isArray(userchat[0])) {
             const mc: chatUser[] | any = mychat[0]
             const uc: chatUser[] | any = userchat[0]

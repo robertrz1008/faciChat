@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { Message, User, contexArg, createMsg } from "../interfaces/contextInterfaces"
-import { createMessageRequest, getChatByFilterRequest, getChatsRequest, getMessageRequest, verifyChatRequest } from "../api/chatRequest"
+import { createMessageRequest, getChatByFilterRequest, getChatsRequest, getMessageRequest } from "../api/chatRequest"
 import io from "socket.io-client"
 
 export const socket = io('http://localhost:4000')
@@ -18,11 +18,12 @@ export const useChat = () => {
 export function ChatContextProvider({children}: contexArg) {
 
   const [chats, setChats] = useState([])
+  const [idChat, setIdChat] = useState(0)
   const [messages, setMessages] = useState<Message[]>([])
   const [msgLoading, setMsgLoading] = useState(false)
   const [userList, setUserList] = useState<User[]>([])
 
-
+  const selectChatId = (id: number) => setIdChat(id)
   //chat services
   const getChats = async () => {
     try {
@@ -32,7 +33,6 @@ export function ChatContextProvider({children}: contexArg) {
       console.log(error)
     }
   }
- 
   //message services
   const getMessages = async (id: number) => {
     setMsgLoading(true);
@@ -69,6 +69,7 @@ export function ChatContextProvider({children}: contexArg) {
   //function for websocket
   function resiveMessage(msg: Message[]){
     setMessages(msg)
+    getChats()
   }
 
 
@@ -84,6 +85,8 @@ export function ChatContextProvider({children}: contexArg) {
 
   return (
     <ChatContex.Provider value={{
+      idChat,
+      selectChatId,
       chats,
       getChats,
       getMessages,

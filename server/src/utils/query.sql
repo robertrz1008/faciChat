@@ -1,30 +1,73 @@
--- Active: 1689771897491@@localhost@3306@appchatdb
+-- Active: 1700335799467@@127.0.0.1@3300@appchatdb
 
 DESCRIBE users;
 
 CREATE TABLE images(
     id INT AUTO_INCREMENT, 
-    type VARCHAR(200),
-    name VARCHAR(255) NOT NULL, 
+    type VARCHAR(45),
+    name VARCHAR(45) NOT NULL, 
     data LONGBLOB,
     PRIMARY KEY(id)
 );
-SELECT * FROM users;
 
-DELETE FROM images WHERE id > 6;
+    
+use appChatdb;
 
-ALTER TABLE users ADD id_image INT DEFAULT 2;
-ALTER TABLE users ADD Foreign Key(id_image) REFERENCES images(id);
+CREATE TABLE users (
+    id INT AUTO_INCREMENT,
+    name VARCHAR(45) NOT NULL,
+    email VARCHAR(45) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    PRIMARY KEY(id)
+);
+CREATE TABLE type_chat(
+    id int AUTO_INCREMENT,
+    description VARCHAR(20) NOT NULL,
+    PRIMARY KEY(id)
+);
+INSERT INTO type_chat(description) VALUES("private");
+SELECT * FROM type_chat;
 
-DESCRIBE users;
+-- Tabla de chats
+CREATE TABLE chats (
+    id INT AUTO_INCREMENT ,
+    id_type INT NOT NULL,
+    PRIMARY KEY(id),
+    Foreign Key (id_type) REFERENCES type_chat(id)
+);
 
-use ventadb;
+-- Tabla de usuarios en un chat
+CREATE TABLE users_chat (
+    id_user INT not null,
+    id_chat INT not NULL,
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    FOREIGN KEY (id_chat) REFERENCES chats(id)
+);
 
-SELECT * FROM products ORDER BY id DESC LIMIT 1
+-- Tabla de mensajes
+CREATE TABLE messages (
+    id INT AUTO_INCREMENT,
+    containe TEXT NOT NULL,
+    id_user INT NOT NULL,
+    id_chat INT NOT NULL,
+    creation TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_user) REFERENCES users(id),
+    FOREIGN KEY (id_chat) REFERENCES chats(id),
+    PRIMARY KEY(id)
+);
 
-update users set id_image = 6 WHERE id >6
+-- Tabla de imágenes
+CREATE TABLE images (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    type VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    data BLOB NOT NULL
+);
 
-SELECT * from images;
+-- Relacionar usuarios con imágenes
+ALTER TABLE users 
+ADD FOREIGN KEY (id_image) REFERENCES images(id);
 
-DESCRIBE images
+ALTER TABLE users ADD id_image int DEFAULT 1;
 
+select * from images;

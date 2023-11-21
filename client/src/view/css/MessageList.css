@@ -1,14 +1,14 @@
 .List-container{
-    width: 100%;
+    width: 98%;
+    max-width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column-reverse;
     overflow-y: scroll;
-    overflow-x: hidden;
 }
 /* personalizar el scroll */
 .List-container::-webkit-scrollbar{
-    width: 7px;
+    width: 5px;
 }
 .List-container::-webkit-scrollbar-thumb{
     background-color: rgb(73, 72, 72);

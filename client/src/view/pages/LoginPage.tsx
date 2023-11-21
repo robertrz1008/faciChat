@@ -1,15 +1,15 @@
 import { useAuth } from "../../context/AppContext.tsx" 
 import "../css/RegisterPage.css"
 import {useForm, SubmitHandler} from "react-hook-form"
-import { FormValues, AppContextIn } from "../../interfaces/contextInterfaces.ts"
+import { FormValues, AppContextIn, User } from "../../interfaces/contextInterfaces.ts"
 import {Link, useNavigate } from "react-router-dom"
 import { useEffect } from "react"
-import Spinner from "../components/Spinner.tsx"
 
 function LoginPage() {
 
+    
     const {register, handleSubmit, formState:{errors}} = useForm<FormValues>()
-    const {singIn, isAutenticate, authLoading, errors: loginErrors} = useAuth() as AppContextIn
+    const {isDisabled, singIn, isAutenticate, authLoading, errors: loginErrors} = useAuth() as AppContextIn
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -17,8 +17,9 @@ function LoginPage() {
       },[isAutenticate])
 
     const submit: SubmitHandler<FormValues> = async (data) => {
-        singIn(data)
+        singIn(data as User)
     }
+   
 
 
   return (
@@ -61,13 +62,15 @@ function LoginPage() {
                     </div>
                 )) : ""
             }
-            <button className="auth-btn">Iniciar Secion</button>
-            {/* icono de carga */}
-            {
-            authLoading? (
-                <><Spinner/></>
-            ) : ""
-        }
+            <button 
+                disabled={isDisabled}
+                className={authLoading? "auth-buttonOff" : "auth-btn"}
+            >
+                {
+                authLoading? "Iniciando Session..." : "Inicar Sesion"
+                }
+            </button>
+            
         </form>
         <p>
             <Link to={"/register"} className="auth-link">¿Ya tienes una cuenta?</Link>

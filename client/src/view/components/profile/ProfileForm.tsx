@@ -61,10 +61,9 @@ function ProfileForm({profileFormClose}: Props): JSX.Element{
       const response: any = await createImagesRequest(formData)
       const userId= { id: user.id }
       await changeImagesRequest(response.data.id, userId)
-      if(myId != 32){
+      if(myId != 1){
         await deleteImageRequest(myId)
       }
-      console.log("ya ha pasado por la condicion del la imagen default")
       getProfile()
     } catch (error) {
       console.log(error)
@@ -78,21 +77,20 @@ function ProfileForm({profileFormClose}: Props): JSX.Element{
     if(name == user.name){
       return
     }else{
-    const userName= { name: name }
-    try {
-      await updateNameProfileRequest(user.id, userName)
-      getProfile()
-      
-    } catch (error) {
-      console.log(error)
-    }
+      const userName= { name: name }
+      try {
+        await updateNameProfileRequest(user.id, userName)
+        getProfile()
+        
+      } catch (error) {
+        console.log(error)
+      }
     }
   }
 
 
   return (
     <div className='profile-form-body'>
-          //imagen
           {
             !fileURL? (<ProfileImage userImg={userImg}/>) : (<ProfileImgForm userImg={fileURL}/>)
           }

@@ -54,6 +54,18 @@
     color: white;
     border:none;
 }
+.auth-buttonOff{
+    width: 80%;
+    height: 35px;
+    align-self: center;
+    margin-top: 20px;
+    border-radius: 50px;
+    background-color: rgb(48, 92, 235);
+    color: white;
+    border:none;
+    cursor: pointer;
+}
+
 .auth-btn:hover{
     background-color: rgb(69, 106, 228);
     cursor: pointer;

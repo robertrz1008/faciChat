@@ -17,18 +17,25 @@ export const useAuth = () => {
 
 export function AppContextProvider({children}: contexArg) {
     const [user, setUser] = useState({})
+    const [isDisabled, setIsDisabled] = useState(false)
     const [userImg, setUserImg] = useState(String)
     const [errors, setErrors] = useState()
     const [isAutenticate, setIstAutenticate] = useState(false)
     const [authLoading, setAuthLoading] = useState(false)
     const [loading, setLoading] = useState(false)
 
+    //botones
+    const buttonDisable = () => setIsDisabled(true)
+    const buttonEnable = () => setIsDisabled(false)
+
     //funciones
     const singUp = async (user: User) => {
         setAuthLoading(true)
+        buttonDisable
         try {
             const res = await registerRequest(user)
             setAuthLoading(false)
+            buttonEnable
             setUser(res.data)
             setIstAutenticate(true)
         } catch (error) {
@@ -42,9 +49,11 @@ export function AppContextProvider({children}: contexArg) {
 
     const singIn = async (user: User) => {
         setAuthLoading(true)
+        buttonDisable
         try {
             await loginRequest(user)
             setAuthLoading(false)
+            buttonEnable
             setIstAutenticate(true)
         } catch (error) {
             if(axios.isAxiosError(error)){
@@ -127,6 +136,7 @@ export function AppContextProvider({children}: contexArg) {
 
   return (
     <appContext.Provider value={{
+        isDisabled,
         singUp,
         singIn,
         isAutenticate,

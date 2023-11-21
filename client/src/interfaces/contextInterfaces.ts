@@ -40,6 +40,7 @@ export interface Image{
 
 //context interface
 export interface AppContextIn{
+    isDisabled: boolean,
     singUp: (user: User) => void,
     singIn: (user: User) => void,
     getProfile: () => void,
@@ -55,6 +56,8 @@ export interface AppContextIn{
 }
 
 export interface ChatContextIn{
+    idChat: number,
+    selectChatId: (id: number) => void,
     chats: Chat[];
     chatId: number;
     getChats: () => void;
