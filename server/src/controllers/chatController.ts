@@ -29,7 +29,8 @@ export const getChatsPrivateRequest = async (req: CustomRequest, res: Response) 
             u.id_image AS id_image,
             c.id AS chat_id,
             m.containe AS latest_message_content,
-            mt.latest_message AS latest_message_time
+            m.id_user AS message_user,
+            mt.latest_message AS latest_message_time 
         FROM
             users u
         JOIN
@@ -61,7 +62,7 @@ export const getChatsPrivateRequest = async (req: CustomRequest, res: Response) 
         }
     } catch (error) {
         console.log(error)
-    }
+    } 
 }
 
 export const createChatPrivateRequest = async (req: CustomRequest, res: Response) => {

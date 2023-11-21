@@ -30,6 +30,13 @@ function ChatsList() {
       return "chat-target"
     }
   }
+  //si ele mensaje es mio
+  function isMyMsg(id: number){
+    if(id == user.id){
+      return true
+    }
+    return false
+  }
 
   if(!chats || chats.length == 0){
 
@@ -56,7 +63,10 @@ function ChatsList() {
                       <div className='chat-target-texts' style={{marginLeft: "10px",}}>
                           <div>
                               <h3>{chat.user_name}</h3>
-                              <h5>{msgText(chat.latest_message_content)}</h5>
+                              <h5>
+                                {isMyMsg(chat.message_user)?"tu:":""}
+                                {msgText(chat.latest_message_content, isMyMsg(chat.message_user))}
+                              </h5>
                           </div>
                           <div className='timestamp-con'>
                               <h5>{getDate(chat.latest_message_time)}</h5>

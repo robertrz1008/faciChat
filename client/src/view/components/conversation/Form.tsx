@@ -1,16 +1,21 @@
-import React, {useEffect, useCallback, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { AppContextIn, ChatContextIn, createMsg } from '../../../interfaces/contextInterfaces'
 import { useChat } from '../../../context/ChatContext'
 import { useAuth } from '../../../context/AppContext'
 import { Props } from '../../../interfaces/ReactStatusInterface'
+import { IoSendSharp } from "react-icons/io5";
 
 function Form({id}: Props) {
-  const {createMessage, getMessages, messages} = useChat() as ChatContextIn
+  const {createMessage, idChat} = useChat() as ChatContextIn
   const {user} = useAuth() as AppContextIn
 
   let getId= Number(id)
 
   const [msgText, setMsgText,] = useState("")
+
+  useEffect(() => {
+    setMsgText("")
+  }, [idChat])
 
 
   function hanldeSubmit(){
@@ -37,7 +42,7 @@ function Form({id}: Props) {
         }}
     >
         <textarea id="input" value={msgText} onChange={(e) => setMsgText(e.target.value)}></textarea>
-        <button>Send</button>
+        <button><IoSendSharp /></button>
     </form>
   )
 }

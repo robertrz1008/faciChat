@@ -16,6 +16,7 @@ export interface Chat{
     chat_id: number,
     id_image: number,
     latest_message_content: string,
+    message_user: number,
     latest_message_time: string
 }
 export interface Message{

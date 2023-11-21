@@ -3,7 +3,7 @@ import { Message, User, contexArg, createMsg } from "../interfaces/contextInterf
 import { createMessageRequest, getChatByFilterRequest, getChatsRequest, getMessageRequest } from "../api/chatRequest"
 import io from "socket.io-client"
 
-export const socket = io('http://localhost:4000')
+export const socket = io('http://localhost:5000')
 
 const ChatContex = createContext({})
 
@@ -19,7 +19,7 @@ export function ChatContextProvider({children}: contexArg) {
 
   const [chats, setChats] = useState([])
   const [idChat, setIdChat] = useState(0)
-  const [messages, setMessages] = useState<Message[]>([])
+  const [messages, setMessages] = useState<Message[]>([])   
   const [msgLoading, setMsgLoading] = useState(false)
   const [userList, setUserList] = useState<User[]>([])
 
