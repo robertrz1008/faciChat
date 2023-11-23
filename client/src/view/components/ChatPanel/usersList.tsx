@@ -27,7 +27,7 @@ function UsersList({usersList, hanldeSelect}: Props): JSX.Element {
                               userId = {user.id_image}
                       />
                     </div>
-                    <div className='chat-target-texts' style={{marginLeft: "10px"}}>
+                    <div  style={{marginLeft: "10px", widows:"60%", height: "80%", fontWeight:"lighter"}}>
                         <h4>{user.name}</h4>
                         <h5>{user.email}</h5>
                     </div>

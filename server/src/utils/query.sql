@@ -71,3 +71,5 @@ ADD FOREIGN KEY (id_image) REFERENCES images(id);
 ALTER TABLE users ADD id_image int DEFAULT 1;
 
 select * from images;
+
+select * from messages;

@@ -102,7 +102,7 @@ export const getUserByFilter = async  (req: CustomRequest, res: Response) => {
     }
 
     try {
-        const response = await connectdb.query(`SELECT * FROM users WHERE name LIKE "%${req.params.str}%"`)
+        const response = await connectdb.query(`SELECT * FROM users WHERE name LIKE "%${req.params.str}%" or email LIKE  "%${req.params.str}%"`)
         if(Array.isArray(response[0])){
             const mychatList: any = response[0]
             const profile = req.user

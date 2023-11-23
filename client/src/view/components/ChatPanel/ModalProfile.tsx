@@ -25,7 +25,7 @@ function ModalProfile({ handleClose, openModal }: ModalProp): JSX.Element {
       aria-labelledby="simple-modal-title"
       aria-describedby="simple-modal-description"
     >
-      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '10px' }}>
+      <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', backgroundColor: 'white', padding: '10px', borderRadius: "10px" }}>
           <div className='modal-con'>
               {
                 !isForm? ( <ProfileConfig profileFormOpen= {profileFormOpen}/> )

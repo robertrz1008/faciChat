@@ -30,7 +30,7 @@ const ChatUserImg: FC<Props> = ({userId}) =>  {
   return (
     <div className='user-img-con'>
         <div className='user-img-surraw'>
-            { file && <img src={"http://localhost:4000/" + file} alt="..." width= "180%" height= "auto" />}
+            { file && <img src={"http://localhost:5000/" + file} alt="..." width= "180%" height= "auto" />}
         </div>
     </div>
   )

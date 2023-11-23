@@ -86,7 +86,7 @@ function ModalSearch({handleCloseSM, openSearchModal, modalClose}: ModalProp): J
             <div className='modal-users-con'>
               <center><h3>Habla con otras personas</h3></center>
               <div 
-                onChange={handleCloseSM} 
+                onClick={handleCloseSM} 
                 style={{cursor:"pointer"}}
                 className='modal-users-exit'>
                   <h2>x</h2>

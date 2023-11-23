@@ -8,7 +8,7 @@ import { useAuth } from '../../../context/AppContext'
 import getDate from '../../../utils/date'
 
 function  MessageList({id}: Props){
-  const {getMessages, messages, selectChatId} = useChat() as ChatContextIn
+  const {getMessages, messages, selectChatId, msgLoading} = useChat() as ChatContextIn
   const {user} = useAuth() as AppContextIn
 
   let chatId = id 
@@ -19,7 +19,7 @@ function  MessageList({id}: Props){
   }, [chatId])
  
 
-  function aut(userId: number){
+  function aut(userId: number){ 
     if(userId == user.id){
         return true
     }else{
@@ -27,7 +27,7 @@ function  MessageList({id}: Props){
     }
   }
 
-  if(messages.length == 0){
+  if(messages.length == 0 && msgLoading){
 
     return <h1>cargando...</h1>
 

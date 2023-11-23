@@ -94,7 +94,8 @@ export function ChatContextProvider({children}: contexArg) {
       createMessage,
       cleanUsersList,
       userList,
-      getUserByFilter
+      getUserByFilter,
+      msgLoading
     }}>
         {children}
     </ChatContex.Provider>
