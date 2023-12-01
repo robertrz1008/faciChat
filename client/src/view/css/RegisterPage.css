@@ -81,16 +81,21 @@
     width: 80%;
     padding-top: 5px;
     padding-bottom: 5px;
-    background-color: red;
+    background-color: rgb(250, 97, 97);
     align-self: center;
-    color: white;
+    color: rgb(43, 1, 1);
     margin-top: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+.auth-link-p{
+    margin-top: 20px;
 }
 
 .auth-link{
     text-decoration: none;
     font-family: sans-serif;
-    margin-top: 10px;
     font-weight: bold;
     color: rgb(10, 83, 241);
 }

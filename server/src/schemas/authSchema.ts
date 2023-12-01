@@ -11,7 +11,7 @@ export const registerSchema = z.object({
     }),
     password: z.string({
         required_error: "La contraseña es requerido"
-    }).min(4, ({
+    }).min(8, ({
         message: "La contraseña deve tener minimo 8 caracteres"
     }))
 })

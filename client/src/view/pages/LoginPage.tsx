@@ -72,9 +72,10 @@ function LoginPage() {
             </button>
             
         </form>
-        <p>
-            <Link to={"/register"} className="auth-link">¿Ya tienes una cuenta?</Link>
-        </p>
+
+        <div className="auth-link-p"> 
+            <Link to={"/register"} className="auth-link">¿Aun no tientes una cuenta?</Link>
+        </div>
     </div>
   )
 }
