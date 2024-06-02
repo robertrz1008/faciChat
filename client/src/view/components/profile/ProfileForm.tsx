@@ -33,14 +33,15 @@ function ProfileForm({profileFormClose}: Props): JSX.Element{
   }
   async function removeImgProfile(){
     //la funcion se detiene si la foto de perfil es la de por defecto
-    if(user.id_image == 2){
-      console.log("el id de imagen es 2")
+    if(user.id_image == 3){
+      console.log("es la imagen por defecto")
       return
     }else{
 
     try {
       const userId= { id: user.id }
-      await changeImagesRequest(2, userId)
+      //la folot sera replazado la de por dafault posteriormente sera eliminada
+      await changeImagesRequest(3, userId)
       await deleteImageRequest(myId)
       alert("Se ha quitado la foto de perfil")
       getProfile()
@@ -53,15 +54,18 @@ function ProfileForm({profileFormClose}: Props): JSX.Element{
 
   //subir foto
   const uploadImgProIgm = async ()  => {
-    if (!file) return
-
+    console.log("subiendo imagen")
+    if (!file){
+      console.log("error al subir la imagen")
+      return
+    }
     const formData = new FormData()
     formData.append('image', file)
     try {
       const response: any = await createImagesRequest(formData)
       const userId= { id: user.id }
       await changeImagesRequest(response.data.id, userId)
-      if(myId != 1){
+      if(myId != 3){
         await deleteImageRequest(myId)
       }
       getProfile()

@@ -1,11 +1,11 @@
-import mysql from "mysql2/promise"
+import pg from "pg"
 
-const connectdb = mysql.createPool({
+const connectdb = new pg.Pool({
     host: "localhost",
-    user: "root",
-    port: 3300,
-    password: "1234567890",
-    database: "appChatdb",
+    user: "postgres",
+    port: 5432,
+    password: "1331",
+    database: "appchatdb",
 })
 
 export default connectdb

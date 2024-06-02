@@ -19,19 +19,21 @@ JOIN
 JOIN
     chats c ON m.id_chat = c.id
 WHERE 
-    c.id = ? 
+    c.id = $1
 ORDER BY 
     m.creation DESC;
 `
 
 export const getMessagesbyAdmin = async (req: Request, res: Response) => {
     try {
-        const response = await connectdb.query(`
+        const pgClient = await connectdb.connect()
+        const response = await pgClient.query(`
                 SELECT m.containe as "message", m.creation as "fecha y horario", u.name, u.email 
                 FROM messages as m JOIN users as u
                 ON m.user_id = u.id
         `)
-        res.json(response[0])
+        pgClient.release()
+        res.json(response.rows)
     } catch (error) {
         console.log(error)
     }
@@ -39,8 +41,10 @@ export const getMessagesbyAdmin = async (req: Request, res: Response) => {
 
 export const getMessagesByChatId = async (req: CustomRequest, res: Response) => {
     try {
-        const response = await connectdb.query(SLQ_QUERY, [req.params.id])
-        res.json(response[0])
+        const pgClient = await connectdb.connect()
+        const response = await pgClient.query(SLQ_QUERY, [parseInt(req.params.id)])
+        pgClient.release()
+        res.json(response.rows)
     } catch (error) {
         console.log(error)
     }
@@ -50,16 +54,20 @@ export const getMessagesByChatId = async (req: CustomRequest, res: Response) => 
 export const createMessage = async (req: CustomRequest, res: Response) => {
     const {containe, id_user, id_chat} = req.body
     try {
-        //Gets the id of the chat that will be used to create the message
-        const chatFound = await connectdb.query(`SELECT * FROM chats WHERE id = ?`, [id_chat])
+        const pgClient = await connectdb.connect()
 
-        if(Array.isArray(chatFound[0]) && chatFound[0].length <= 0){
+        //Gets the id of the chat that will be used to create the message
+        const chatFound = await pgClient.query(`SELECT * FROM chats WHERE id = $1`, [id_chat])
+
+        if(Array.isArray(chatFound.rows) && chatFound.rows.length == 0){
             return res.status(404).json({message: "NO existe el chat"})
         }
         //the message is create using the chats id obtained
-        await connectdb.query(`INSERT INTO messages(containe, id_user, id_chat) VALUES( ?, ?, ?);`, [containe, id_user, id_chat])
-        const response = await connectdb.query(SLQ_QUERY, [id_chat])
-        socket.emit(socketMsg.post, response[0])
+        await pgClient.query(`INSERT INTO messages(containe, id_user, id_chat) VALUES( $1, $2, $3);`, [containe, id_user, id_chat])
+        const response = await pgClient.query(SLQ_QUERY, [id_chat])
+        pgClient.release()
+
+        socket.emit(socketMsg.post, response.rows)
     } catch (error) {
         console.log(error)
     }
@@ -67,8 +75,10 @@ export const createMessage = async (req: CustomRequest, res: Response) => {
 
 export const deleteMessage = async (req: Request, res: Response) => {
     try {
-        await connectdb.query(`DELETE FROM messages WHERE id = ?`, [req.params.id])
+        const pgClient = await connectdb.connect()
+        await connectdb.query(`DELETE FROM messages WHERE id = $1`, [req.params.id])
         // res.json({message: "mensage eliminado"})
+        pgClient.release()
     } catch (error) {
         console.log(error)
     }

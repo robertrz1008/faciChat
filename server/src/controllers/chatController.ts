@@ -22,8 +22,10 @@ export const getChatsPrivateRequest = async (req: CustomRequest, res: Response) 
     }
     
     try {
-        const mychat = await connectdb.query(`SELECT * FROM users_chat WHERE id_user = ?`, [req.user.id])
-        const userchat = await connectdb.query(`
+        const pgClient = await connectdb.connect()
+
+        const mychat = await pgClient.query(`SELECT * FROM users_chat WHERE id_user = $1`, [req.user.id])
+        const userchat = await pgClient.query(`
         SELECT
             u.name AS user_name, 
             u.id_image AS id_image,
@@ -49,13 +51,15 @@ export const getChatsPrivateRequest = async (req: CustomRequest, res: Response) 
         JOIN
             messages m ON mt.latest_message = m.creation AND mt.id_chat = m.id_chat
         WHERE
-            m.containe IS NOT NULL and uc.id_user <> ? 
+            m.containe IS NOT NULL and uc.id_user <> $1
         ORDER BY
             latest_message_time DESC
         `, [req.user.id])
-        if (Array.isArray(mychat[0]) && Array.isArray(userchat[0])) {
-            const mc: chatUser[] | any = mychat[0]
-            const uc: chatUser[] | any = userchat[0]
+        pgClient.release()
+
+        if (Array.isArray(mychat.rows) && Array.isArray(userchat.rows)) {
+            const mc: chatUser[] | any = mychat.rows
+            const uc: chatUser[] | any = userchat.rows
             const myChatsList = chatList(mc, uc)
             
             res.json(myChatsList)
@@ -70,18 +74,20 @@ export const createChatPrivateRequest = async (req: CustomRequest, res: Response
     const yo  = req.user.id
     const {userId} = req.body
     try {
+        const pgClient = await connectdb.connect()
         //cramos el chat para crear la sala de combersacion 
-        await connectdb.query(`INSERT INTO chats(id_type) VALUES(?);`, [n])
-        const response = await connectdb.query(`SELECT * FROM chats`)
-
-        if (Array.isArray(response[0])) {
-            const chatFound: any = response[0][response[0].length -1]
+        await pgClient.query(`INSERT INTO chats(id_type) VALUES($1);`, [n])
+        const response = await pgClient.query(`SELECT * FROM chats`)
+        if (Array.isArray(response.rows)) {
+            const chatFound: any = response.rows[response.rows.length -1]
             //para definir quienes seran los integrantes de la combersacion
-            await connectdb.query(`INSERT INTO users_chat(id_user, id_chat) VALUES(?, ?);`, [yo ,chatFound.id])
-            await connectdb.query(`INSERT INTO users_chat(id_user, id_chat) VALUES(?, ?);`, [userId ,chatFound.id])
+            await pgClient.query(`INSERT INTO users_chat(id_user, id_chat) VALUES($1, $2);`, [yo ,chatFound.id])
+            await pgClient.query(`INSERT INTO users_chat(id_user, id_chat) VALUES($1, $2);`, [userId ,chatFound.id])
             
             res.json({message: "chat privado creado con exito"})
         }
+        pgClient.release()
+
     } catch (error) {
         console.log(error)
     }
@@ -102,9 +108,12 @@ export const getUserByFilter = async  (req: CustomRequest, res: Response) => {
     }
 
     try {
-        const response = await connectdb.query(`SELECT * FROM users WHERE name LIKE "%${req.params.str}%" or email LIKE  "%${req.params.str}%"`)
-        if(Array.isArray(response[0])){
-            const mychatList: any = response[0]
+        const pgClient = await connectdb.connect()
+        const response = await pgClient.query(`SELECT * FROM users WHERE name LIKE '%${req.params.str}%' or email LIKE  '%${req.params.str}%'`)
+        pgClient.release()
+
+        if(Array.isArray(response.rows)){
+            const mychatList: any = response.rows
             const profile = req.user
             const newUserList = userList(profile, mychatList)
             res.json(newUserList)
@@ -128,7 +137,9 @@ export const verifyChatByUser = async  (req: CustomRequest, res: Response) => {
         return mY
     }
     try {
-        const myChats: any = await connectdb.query(`
+        const pgClient = await connectdb.connect()
+
+        const myChats= await pgClient.query(`
             select 
                 u.name as user_name, 
                 u.id_image as id_image,
@@ -137,8 +148,8 @@ export const verifyChatByUser = async  (req: CustomRequest, res: Response) => {
                 users u join users_chat uc
             on 
                 u.id = uc.id_user 
-            where u.id = ?;`, [req.user.id])
-        const userChat: any = await connectdb.query(`
+            where u.id = $1;`, [req.user.id])
+        const userChat= await pgClient.query(`
         select 
             u.name as user_name, 
             u.id_image as id_image,
@@ -147,8 +158,10 @@ export const verifyChatByUser = async  (req: CustomRequest, res: Response) => {
             users u join users_chat uc
         on 
             u.id = uc.id_user 
-        where u.id = ?;`, [req.params.id])
-        const chatTest= findChat(myChats[0], userChat[0])
+        where u.id = $1;`, [req.params.id])
+        const chatTest= findChat(myChats.rows, userChat.rows)
+        pgClient.release()
+
         res.json(chatTest)
     } catch (error) {
         console.log(error)
