@@ -1,5 +1,5 @@
 import express from "express"
-import { PORT, socketMsg } from "./utils/config"
+import { CLIENT_URL, PORT, socketMsg } from "./utils/config"
 import morgan from "morgan"
 import cors from "cors"
 import cookieParser from "cookie-parser"
@@ -15,12 +15,12 @@ const app = express()
 const server = http.createServer(app) 
 export const socket = new Server(server, {
     cors: {
-        origin: "http://localhost:5173",
+        origin: CLIENT_URL,
     }
 })
 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: CLIENT_URL,
     credentials: true
 }))
 app.use(morgan("dev"))
