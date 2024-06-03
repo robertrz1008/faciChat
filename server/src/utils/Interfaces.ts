@@ -9,7 +9,7 @@ export interface User {
 }
 export interface CustomRequest extends Request {
     user?: any; 
-}
+} 
 
 export interface httpRuote {
     req: Request,
