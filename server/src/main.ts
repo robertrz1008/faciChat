@@ -42,7 +42,7 @@ app.use("/api", msgRoute)
 app.use("/api", chatRoute)
 app.use("/api", proRoute)
 
-app.use("/", (req, res) =>{
+app.get("/", (req, res) =>{
     res.send("Welcome to fachat api")
 })
 
