@@ -28,10 +28,6 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "dbImages")))
 
-app.use("/", (req, res) =>{
-    res.send("Welcome to fachat api")
-})
-
 //socket configuracion
 socket.on("connection", (socket) => {
     console.log("user connected")
@@ -46,6 +42,9 @@ app.use("/api", msgRoute)
 app.use("/api", chatRoute)
 app.use("/api", proRoute)
 
+app.use("/", (req, res) =>{
+    res.send("Welcome to fachat api")
+})
 
 server.listen(PORT, () =>{
     console.log(`server starting, http://localhost:${PORT}/`)
