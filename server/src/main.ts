@@ -28,6 +28,9 @@ app.use(express.json())
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, "dbImages")))
 
+app.use("/", (req, res) =>{
+    res.send("Welcome to fachat api")
+})
 
 //socket configuracion
 socket.on("connection", (socket) => {
