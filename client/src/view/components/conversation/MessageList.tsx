@@ -16,7 +16,6 @@ function  MessageList({vId}: msgProp){
   const {user} = useAuth() as AppContextIn
 
   let chatId = vId 
-  
 
   useEffect(() => {
     getMessages(chatId)
