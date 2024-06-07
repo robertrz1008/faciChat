@@ -10,6 +10,7 @@ import proRoute from "./routes/profile.routes"
 import chatRoute from "./routes/chat.routes"
 import { Server} from "socket.io"
 import path from "path"
+import connectdb from "./utils/connectiondb"
 
 const app = express()
 const server = http.createServer(app) 
@@ -44,6 +45,18 @@ app.use("/api", proRoute)
 
 app.get("/", (req, res) =>{
     res.send("Welcome to fachat api")
+})
+app.get("/db", async (req, res) => {  
+    try {
+        const pgClient = await connectdb.connect()
+
+        const chatFound = await pgClient.query(`SELECT NOW()`)
+
+        pgClient.release()
+        res.json(chatFound.rows)
+    } catch (error) {
+        console.log(error)
+    }
 })
 
 server.listen(PORT, () =>{
