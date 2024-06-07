@@ -12,11 +12,11 @@ type Props = {
 
 function ProfileForm({profileFormClose}: Props): JSX.Element{
 
-  const {userImg, user, getProfile, updateNameProfile} = useAuth() as AppContextIn
+  const {userImg, user, getProfile} = useAuth() as AppContextIn
 
   const [fileURL, setFileURL] = useState(String)
   const [file, setFile] = useState<File | null>()
-  const [myId, setMyId] = useState(user.id_image)
+  const [myId, _setMyId] = useState(user.id_image)
   const [name, setName] = useState<string>("")
 
   useEffect(() => {

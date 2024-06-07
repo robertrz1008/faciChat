@@ -1,17 +1,22 @@
 import { useEffect } from 'react'
 import { useChat } from '../../../context/ChatContext'
 import { AppContextIn, ChatContextIn } from '../../../interfaces/contextInterfaces'
-import { Props } from '../../../interfaces/ReactStatusInterface'
+// import { Props } from '../../../interfaces/ReactStatusInterface'
 import "../../css/MessageList.css"
 import "../../css/MessageCard.css"
 import { useAuth } from '../../../context/AppContext'
 import getDate from '../../../utils/date'
 
-function  MessageList({id}: Props){
+interface msgProp{
+  vId: number
+}
+
+function  MessageList({vId}: msgProp){
   const {getMessages, messages, selectChatId, msgLoading} = useChat() as ChatContextIn
   const {user} = useAuth() as AppContextIn
 
-  let chatId = id 
+  let chatId = vId 
+  
 
   useEffect(() => {
     getMessages(chatId)

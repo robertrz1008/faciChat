@@ -46,11 +46,14 @@ function ChatsList() {
     return (
         <div className='chat-list'>
           {
-            
             chats.map((chat) => (
+                  
                   <div 
                     onClick={() => {
-                      navigate(`/chat/conversation/${chat.chat_id}/${chat.user_name}/${chat.id_image}`)
+                      const id: number = chat.chat_id
+                      const name: string = chat.user_name
+                      const chatId: number = chat.id_image
+                      navigate(`/chat/conversation/${id}/${name}/${chatId}`)
                     }}
                     className={isChatSelected(chat.chat_id)}
                     key={chat.chat_id}>

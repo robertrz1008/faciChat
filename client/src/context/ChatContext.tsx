@@ -2,8 +2,9 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { Message, User, contexArg, createMsg } from "../interfaces/contextInterfaces"
 import { createMessageRequest, getChatByFilterRequest, getChatsRequest, getMessageRequest } from "../api/chatRequest"
 import io from "socket.io-client"
+import { SOCKET_SERVER } from "../utils/config"
 
-export const socket = io('http://localhost:5000')
+export const socket = io(SOCKET_SERVER)
 
 const ChatContex = createContext({})
 

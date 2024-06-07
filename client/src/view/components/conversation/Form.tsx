@@ -2,14 +2,18 @@ import { useState, useEffect } from 'react'
 import { AppContextIn, ChatContextIn, createMsg } from '../../../interfaces/contextInterfaces'
 import { useChat } from '../../../context/ChatContext'
 import { useAuth } from '../../../context/AppContext'
-import { Props } from '../../../interfaces/ReactStatusInterface'
+// import { Props } from '../../../interfaces/ReactStatusInterface'
 import { IoSendSharp } from "react-icons/io5";
 
-function Form({id}: Props) {
+interface msgProp{
+  vId: number
+}
+
+function Form({vId}: msgProp) {
   const {createMessage, idChat} = useChat() as ChatContextIn
   const {user} = useAuth() as AppContextIn
 
-  let getId= Number(id)
+  let getId= vId
 
   const [msgText, setMsgText,] = useState("")
 
